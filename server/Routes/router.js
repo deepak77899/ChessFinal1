@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {userLogin, userSignup ,userLogout}=require('../controllers/Auth');
+const {searchForFriend,sendFriendRequest}=require('../controllers/makeAFriend');
 const {auth}=require('../middlewares/auth');
 
 router.post('/login', userLogin);
@@ -13,5 +14,6 @@ router.post('/test',auth,async (req,res)=>{
 })
 router.post('/signup', userSignup);
 router.post('/logout', userLogout);
-  
+router.post('/searchforfriend', searchForFriend);
+router.post('/sendfriendrequest',sendFriendRequest);
 module.exports = router;

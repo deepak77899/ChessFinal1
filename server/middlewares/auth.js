@@ -23,7 +23,9 @@ exports.auth = async (req, res, next) => {
    } catch (error) {
      return res.status(401).send("invalid token")
    }
-
+    req.body.email=verifyUser.email;
+    req.body._id=verifyUser._id;
+    req.body.username=verifyUser.username;
     next();
   } catch (error) {
      return res.status(401).send("Unauthorized request");

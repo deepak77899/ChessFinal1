@@ -9,8 +9,34 @@ import {
     Button,
   } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
+import { useState } from "react";
    
   export function LoginCard() {
+    const [formData,setFormData]=useState({
+      Email:"",
+      Password:""
+
+    });
+    const handleChange=(e)=>{
+      const target=e.target.name;
+      if(target==="Email"){
+        setFormData((prev)=>({
+          ...prev,
+          Email:e.target.value,
+        }
+        )
+        )
+      }
+      else if( target==="Password"){
+        setFormData((prev)=>({
+          ...prev,
+          Password:e.target.value,
+        }
+        )
+        )
+      }
+  
+    }
     return (
         <div className='h-screen flex items-center justify-center'>
       <Card className="w-96">
@@ -24,8 +50,10 @@ import { Link } from "react-router-dom";
           </Typography>
         </CardHeader>
         <CardBody className="flex flex-col gap-4">
-          <Input label="Email" size="lg" />
-          <Input label="Password" size="lg" />
+          <Input label="Email" size="lg"  name="Email"
+              onChange={handleChange} />
+          <Input label="Password" size="lg"  name="Password"
+              onChange={handleChange}/>
           <div className="-ml-2.5">
             <Checkbox label="Remember Me" />
           </div>

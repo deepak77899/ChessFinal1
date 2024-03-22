@@ -5,9 +5,47 @@ import {
     Button,
     Typography,
   } from "@material-tailwind/react";
+import { useState } from "react";
   import {Link} from "react-router-dom";
    
   export function SimpleRegistrationForm() {
+
+    const [formData,setFormData]=useState({
+      Name:"",
+      Email:"",
+      Password:""
+
+    });
+
+  const handleChange=(e)=>{
+    const target=e.target.name;
+    if(target==="Name"){
+   
+        setFormData((prev)=>({
+          ...prev,
+          Name:e.target.value,
+        }
+        )
+        )
+    }
+    else if(target==="Email"){
+      setFormData((prev)=>({
+        ...prev,
+        Email:e.target.value,
+      }
+      )
+      )
+    }
+    else if( target==="Password"){
+      setFormData((prev)=>({
+        ...prev,
+        Password:e.target.value,
+      }
+      )
+      )
+    }
+
+  }
     return (
         <div className='h-screen flex justify-center items-center'>
        <Card color="transparent" shadow={false}>
@@ -29,6 +67,12 @@ import {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
+              // value={formData.Name}
+             
+              name="Name"
+              onChange={handleChange}
+              value={formData.Name}
+              
             />
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Your Email
@@ -40,6 +84,8 @@ import {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
+              name="Email"
+              onChange={handleChange}
             />
             <Typography variant="h6" color="blue-gray" className="-mb-3">
               Password
@@ -52,6 +98,8 @@ import {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
+              name="Password"
+              onChange={handleChange}
             />
           </div>
           <Checkbox

@@ -26,6 +26,7 @@ import {
   Bars2Icon,
 } from "@heroicons/react/24/solid";
 import { Link  } from "react-router-dom";
+import { useSelector } from 'react-redux';
  
 // profile menu component
 const profileMenuItems = [
@@ -34,17 +35,14 @@ const profileMenuItems = [
     icon: UserCircleIcon,
   },
   {
-    label: "Edit Profile",
+    label: "Game History",
     icon: Cog6ToothIcon,
   },
   {
-    label: "Inbox",
+    label: "Requests",
     icon: InboxArrowDownIcon,
   },
-  {
-    label: "Help",
-    icon: LifebuoyIcon,
-  },
+
   {
     label: "Sign Out",
     icon: PowerIcon,
@@ -55,7 +53,7 @@ function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
  
   const closeMenu = () => setIsMenuOpen(false);
- 
+  const { user } = useSelector((state) => state.auth);
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
       <MenuHandler>
@@ -69,7 +67,7 @@ function ProfileMenu() {
             size="sm"
             alt="tania andrew"
             className="border border-gray-900 p-0.5"
-            src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
+            src={`https://api.dicebear.com/5.x/initials/svg?seed=${user.username}`}
           />
           <ChevronDownIcon
             strokeWidth={2.5}
@@ -118,17 +116,7 @@ const navListMenuItems = [
     title: "@material-tailwind/html",
     description:
       "Learn how to use @material-tailwind/html, packed with rich components and widgets.",
-  },
-  {
-    title: "@material-tailwind/react",
-    description:
-      "Learn how to use @material-tailwind/react, packed with rich components for React.",
-  },
-  {
-    title: "Material Tailwind PRO",
-    description:
-      "A complete set of UI Elements for building faster websites in less time.",
-  },
+  }
 ];
  
 function NavListMenu() {
@@ -191,10 +179,7 @@ function NavListMenu() {
  
 // nav list component
 const navListItems = [
-  {
-    label: "Account",
-    icon: UserCircleIcon,
-  },
+ 
 
 
 ];
@@ -225,6 +210,7 @@ function NavList() {
 export function ComplexNavbar() {
 
   const [isNavOpen, setIsNavOpen] = React.useState(false);
+  const { user } = useSelector((state) => state.auth);
  
   const toggleIsNavOpen = () => setIsNavOpen((cur) => !cur);
  
@@ -246,7 +232,7 @@ export function ComplexNavbar() {
           href="#"
           className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
         >
-          Material Tailwind
+        Chess
         </Typography>
         <div className="hidden lg:block">
           <NavList />
@@ -260,12 +246,25 @@ export function ComplexNavbar() {
         >
           <Bars2Icon className="h-6 w-6" />
         </IconButton>
-        <Link to="/Login">
-        <Button size="sm" variant="text" >
-          <span>Log In</span>
-        </Button>
-        </Link>
-        <ProfileMenu />
+        {user ? (
+          <ProfileMenu />
+        ) : (
+          <div>
+          <Link to="/Login">
+            <Button size="sm" variant="text">
+              <span>Log In</span>
+            </Button>
+          </Link>
+          
+          <Link to="/SignUp">
+            <Button size="sm" variant="text" className='bg-orange-600'>
+              <span>SignUp</span>
+            </Button>
+          </Link>
+          </div>
+        )}
+        
+     
       </div>
       <MobileNav open={isNavOpen} className="overflow-scroll">
         <NavList />

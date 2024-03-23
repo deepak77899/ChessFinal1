@@ -10,19 +10,35 @@ import {
   } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { loginAPI } from "../../services/operations/authAPI";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+
    
   export function LoginCard() {
+    const dispatch=useDispatch();
+    const navigate=useNavigate();
     const [formData,setFormData]=useState({
-      Email:"",
-      Password:""
+      email:"",
+      password:""
 
     });
+    const handleSubmit=(e)=>{
+
+      
+      const {email,password}=formData
+  
+      loginAPI(email,password,navigate,dispatch);
+       
+  
+      }
+
     const handleChange=(e)=>{
       const target=e.target.name;
       if(target==="Email"){
         setFormData((prev)=>({
           ...prev,
-          Email:e.target.value,
+          email:e.target.value,
         }
         )
         )
@@ -30,7 +46,7 @@ import { useState } from "react";
       else if( target==="Password"){
         setFormData((prev)=>({
           ...prev,
-          Password:e.target.value,
+          password:e.target.value,
         }
         )
         )
@@ -59,7 +75,7 @@ import { useState } from "react";
           </div>
         </CardBody>
         <CardFooter className="pt-0">
-          <Button variant="gradient" fullWidth>
+          <Button variant="gradient" fullWidth onClick={handleSubmit}>
             Sign In
           </Button>
           <Typography variant="small" className="mt-6 flex justify-center">

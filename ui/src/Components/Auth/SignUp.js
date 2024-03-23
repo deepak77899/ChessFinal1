@@ -7,23 +7,34 @@ import {
   } from "@material-tailwind/react";
 import { useState } from "react";
   import {Link} from "react-router-dom";
-   
+  import {signUpAPI} from "../../services/operations/authAPI"
+  import { useNavigate} from "react-router-dom";
+  
   export function SimpleRegistrationForm() {
-
+    const navigate=useNavigate();
     const [formData,setFormData]=useState({
-      Name:"",
-      Email:"",
-      Password:""
+       username:"",
+      email:"",
+      password:""
 
     });
 
+    const handleSubmit=(e)=>{
+
+      
+    const {username,email,password}=formData
+
+      signUpAPI(username,email,password,navigate);
+     
+
+    }
   const handleChange=(e)=>{
     const target=e.target.name;
     if(target==="Name"){
    
         setFormData((prev)=>({
           ...prev,
-          Name:e.target.value,
+          username:e.target.value,
         }
         )
         )
@@ -31,7 +42,7 @@ import { useState } from "react";
     else if(target==="Email"){
       setFormData((prev)=>({
         ...prev,
-        Email:e.target.value,
+        email:e.target.value,
       }
       )
       )
@@ -39,7 +50,7 @@ import { useState } from "react";
     else if( target==="Password"){
       setFormData((prev)=>({
         ...prev,
-        Password:e.target.value,
+        password:e.target.value,
       }
       )
       )
@@ -120,7 +131,7 @@ import { useState } from "react";
             }
             containerProps={{ className: "-ml-2.5" }}
           />
-          <Button className="mt-6" fullWidth>
+          <Button className="mt-6" fullWidth onClick={handleSubmit}>
             sign up
           </Button>
           <Typography color="gray" className="mt-4 text-center font-normal">

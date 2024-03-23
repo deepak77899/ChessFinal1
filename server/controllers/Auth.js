@@ -26,12 +26,14 @@ const userLogin=async (req,res)=>{
 			};
         // we are storing cookie in jwtoken and it will expires in 30days
         res.cookie('token', token, options);
-        res.status(200).send("token successfully stored");
+        User.password="";
+        User.friends=[];
+        res.status(200).json({User,success:true});
         }else{
-            res.status(401).send("Invalid Username or Password");
+            res.status(401).json({success:false,message:"invalid username or password"});
         }
     } catch (error) {
-        res.status(404).send("Unable to login Internal server error "+error);
+        res.status(404).json({success:false,error});
     }
 }
 const userSignup=async (req, res) => {
@@ -41,7 +43,7 @@ const userSignup=async (req, res) => {
       // Check if the user already exists
       const existingUser = await user.findOne({ email });
       if (existingUser) {
-        return res.status(400).json({ message: 'User already exists' });
+        return res.status(400).json({ success:false,message: 'User already exists' });
       }
   // Hash the password
   const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
@@ -56,10 +58,11 @@ const userSignup=async (req, res) => {
       const token = await newUser.generateAuthToken();
   
       // Send the token as a response
-      res.status(201).json({ token });
+      res.status(201).json({success:true, token });
     } catch (error) {
       console.error('Error during signup:', error);
-      res.status(500).json({ message: 'Internal Server Error' });
+      res.status(500).json({
+        success:false, message: 'Internal Server Error' });
     }
   }
   

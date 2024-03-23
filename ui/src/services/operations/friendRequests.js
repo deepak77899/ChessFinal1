@@ -1,12 +1,13 @@
 import { apiConnector } from "../apiconnector";
-export const friendRequestApi=async(setData)=>{
+export const friendRequestApi=async(email,setData)=>{
  
     try{
        //todo:
         const response = await apiConnector(
             "GET",
-            "http://localhost:4000/getallfriendrequests/deepak@gmail.com"
+            `http://localhost:4000/getallfriendrequests/${email}`
           );
+        //   console.log(response)
           setData(response.data.data);
         // const config={
         //       withCredentials: true

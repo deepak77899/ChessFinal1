@@ -10,30 +10,32 @@ import {
 } from "@material-tailwind/react";
 import { friendRequestApi ,acceptRequestApi,rejectRequestApi} from "../services/operations/friendRequests";
 import { useState } from "react";
+import { useSelector } from 'react-redux';
 
 export function FriendRequests() {
   const [data,setData]=useState([]);
+  const { user } = useSelector((state) => state.auth);
   useEffect(  () => {
-    friendRequestApi(setData);
+    friendRequestApi(user.email,setData);
     console.log("data");
     console.log(data);
   },[]);
   
-  const handleAcceptRequest=(email,id)=>{
-      acceptRequestApi(email,id);
+  const handleAcceptRequest=(id)=>{
+      acceptRequestApi(user.email,id);
       setData((prev)=>{
-        
+        prev=prev.filter((obj)=>obj._id!=id)
       });
   }
-  const handleRejectRequest=(email,id)=>{
-      rejectRequestApi(email,id);
+  const handleRejectRequest=(id)=>{
+      rejectRequestApi(user.email,id);
       setData((prev)=>{
-        
+        prev=prev.filter((obj)=>obj._id!=id)
       });
   }
   return (
     <div class="flex justify-center items-center h-[90vh]">
- {data.length > 0 ? (
+ {data && data.length>0? (
   <Card className="w-96">
     <List>
       {data.map(user => (
@@ -52,8 +54,7 @@ export function FriendRequests() {
             </div>
             <div className='flex flex-row'>
               <Button  size="sm" variant="text" className="flex items-center  "
-              //todo: remove static email
-              onClick={()=>handleAcceptRequest("deepak@gmail.com",user._id)}>
+              onClick={()=>handleAcceptRequest(user._id)}>
                 <svg  xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -64,8 +65,7 @@ export function FriendRequests() {
                 </svg>
               </Button>
               <Button size="sm" variant="text" className="flex items-center gap-2"
-              //todo: remove static email
-              onClick={()=>handleRejectRequest("deepak@gmail.com",user._id)}>
+              onClick={()=>handleRejectRequest(user._id)}>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6 text-red-800">
                   <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm-1.72 6.97a.75.75 0 1 0-1.06 1.06L10.94 12l-1.72 1.72a.75.75 0 1 0 1.06 1.06L12 13.06l1.72 1.72a.75.75 0 1 0 1.06-1.06L13.06 12l1.72-1.72a.75.75 0 1 0-1.06-1.06L12 10.94l-1.72-1.72Z" clipRule="evenodd" />
                 </svg>

@@ -2,7 +2,6 @@ const jwt = require('jsonwebtoken')
 require("dotenv").config();
 exports.auth = async (req, res, next) => {
 
-  //todo body se utho
   try {
     //extract token
     const token = req.cookies.token;

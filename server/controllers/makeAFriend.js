@@ -6,13 +6,13 @@ const searchForFriend=async (req,res)=>{
         console.log(usernameRegx);
         const users = await user.find({ username: { $regex: usernameRegx, $options: 'i' } });
         if (!users || users.length === 0) {
-            return res.status(404).json({sucess:false,message:"No users found matching the search criteria."});
+            return res.status(404).json({success:false,message:"No users found matching the search criteria."});
         }
         //todo remove sensitive info
-        return res.status(200).json({sucess:true,users});
+        return res.status(200).json({success:true,users});
     } catch (error) {
         console.log(error);
-        return res.status(401).json({sucess:false,error});
+        return res.status(401).json({success:false,error});
     }
 }
 const sendFriendRequest=async (req,res)=>{
@@ -29,18 +29,18 @@ const sendFriendRequest=async (req,res)=>{
             if(!friend.requests.includes(_id))
             friend.requests.push(_id);
             else{
-                return res.status(401).json({sucess:true,messgae:"request already sent"});
+                return res.status(401).json({success:true,messgae:"request already sent"});
             }
         }else{
-            return res.status(401).json({sucess:true,messgae:"already a friend"});
+            return res.status(401).json({success:true,messgae:"already a friend"});
         }
 
         // Save the updated user documents
         await friend.save();
-        return res.status(200).json({sucess:true,message:"request sent successfully"});
+        return res.status(200).json({success:true,message:"request sent successfully"});
     } catch (error) {
         console.log(error);
-        return res.status(401).json({sucess:false,error});
+        return res.status(401).json({success:false,error});
     }
 };
 const getAllFriendRequests=async (req,res)=>{
@@ -53,10 +53,10 @@ const getAllFriendRequests=async (req,res)=>{
             path:'requests',
             select:'username email'
         });
-        return res.status(200).json({sucess:true,data:requests.requests});
+        return res.status(200).json({success:true,data:requests.requests});
     } catch (error) {
         console.log(error);
-        return res.status(401).json({sucess:false,error});
+        return res.status(401).json({success:false,error});
     }
 };
 const acceptRequest=async(req,res)=>{

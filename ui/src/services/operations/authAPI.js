@@ -9,7 +9,7 @@ try{
    
     const response = await apiConnector(
         "POST",
-        "http://localhost:4000/Signup",
+        "http://localhost:4000/signup",
         {
          username,
           email,
@@ -54,6 +54,8 @@ export const loginAPI=async(email,password,navigate,dispatch)=>{
             throw new Error("Error");
           }
           localStorage.setItem("User", JSON.stringify(response.data.User))
+          localStorage.setItem("token", JSON.stringify(response.data.token))
+          dispatch(setToken(response.data.token));
           dispatch(setUser(response.data.User));
           navigate('/');
           

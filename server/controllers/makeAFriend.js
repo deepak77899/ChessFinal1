@@ -2,15 +2,16 @@ const user=require("../Models/User");
 const searchForFriend=async (req,res)=>{
     try {
         const {usernameRegx}=req.body;
+        console.log("backend k andar");
         console.log(usernameRegx);
         const users = await user.find({ username: { $regex: usernameRegx, $options: 'i' } });
         if (!users || users.length === 0) {
-            return res.status(404).send("No users found matching the search criteria.");
+            return res.status(404).json({success:false,Message:"No user found"});
         }
-        return res.status(200).json(users);
+        return res.status(200).json({users,success:true});
     } catch (error) {
         console.log(error);
-        return res.status(401).send(error);
+        return res.status(401).send({error,success:false});
     }
 }
 const sendFriendRequest=async (req,res)=>{

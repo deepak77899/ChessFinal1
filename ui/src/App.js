@@ -3,12 +3,16 @@ import HomePage from "./Components/HomePage";
 import {ComplexNavbar} from "./Components/NavbarDefault";
 import {LoginCard} from "./Components/Auth/LogIn"
 import {SimpleRegistrationForm} from "./Components/Auth/SignUp"
-
+import { DrawerDefault } from "./Components/SideBar";
 function App() {
 
   return (
     <BrowserRouter>
+    <div className='flex '>
+     <DrawerDefault/>
     <ComplexNavbar/>
+    </div>
+   
      <Routes>
         <Route path="/" element={<HomePage />}>
         </Route>
@@ -16,6 +20,7 @@ function App() {
         </Route>
         <Route path="/SignUp" element={<SimpleRegistrationForm />}>
         </Route>
+        
       </Routes>
     </BrowserRouter>
   );

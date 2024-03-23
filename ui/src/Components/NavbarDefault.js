@@ -180,7 +180,7 @@ function NavListMenu() {
 // nav list component
 const navListItems = [
  
-
+ 
 
 ];
  
@@ -244,8 +244,10 @@ export function ComplexNavbar() {
           onClick={toggleIsNavOpen}
           className="ml-auto mr-2 lg:hidden"
         >
+        
           <Bars2Icon className="h-6 w-6" />
         </IconButton>
+      
         {user ? (
           <ProfileMenu />
         ) : (

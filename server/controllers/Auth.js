@@ -28,7 +28,7 @@ const userLogin=async (req,res)=>{
         res.cookie('token', token, options);
         User.password="";
         User.friends=[];
-        res.status(200).json({User,success:true});
+        res.status(200).json({User,success:true,token});
         }else{
             res.status(401).json({success:false,message:"invalid username or password"});
         }

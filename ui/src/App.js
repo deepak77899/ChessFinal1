@@ -3,6 +3,7 @@ import HomePage from "./Components/HomePage";
 import {ComplexNavbar} from "./Components/NavbarDefault";
 import {LoginCard} from "./Components/Auth/LogIn"
 import {SimpleRegistrationForm} from "./Components/Auth/SignUp"
+import {FriendRequests} from "./Components/FriendRequests";
 
 function App() {
 
@@ -15,6 +16,8 @@ function App() {
         <Route path="/Login" element={<LoginCard />}>
         </Route>
         <Route path="/SignUp" element={<SimpleRegistrationForm />}>
+        </Route>
+        <Route path="/friendrequests" element={<FriendRequests />}>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const {userLogin, userSignup ,userLogout}=require('../controllers/Auth');
-const {searchForFriend,sendFriendRequest}=require('../controllers/makeAFriend');
+const {searchForFriend,sendFriendRequest,getAllFriendRequests,rejectRequest,acceptRequest}=require('../controllers/makeAFriend');
 const {auth}=require('../middlewares/auth');
 
 router.post('/login', userLogin);
@@ -12,8 +12,13 @@ router.post('/test',auth,async (req,res)=>{
     console.log("tjb");
     res.send("ti");
 })
+
+//todo auth lga do
 router.post('/signup', userSignup);
 router.post('/logout', userLogout);
 router.post('/searchforfriend', searchForFriend);
 router.post('/sendfriendrequest',sendFriendRequest);
+router.get('/getallfriendrequests/:email',getAllFriendRequests);
+router.post('/rejectRequest',rejectRequest);
+router.post('/acceptRequest',acceptRequest);
 module.exports = router;

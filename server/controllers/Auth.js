@@ -21,8 +21,8 @@ const userLogin=async (req,res)=>{
 				expires: new Date(Date.now() +   15 * 60 * 60 * 1000),
 				httpOnly: true,
                 path: "/",
-                sameSite: 'none',
-                // secure:true//but have to change to trure on production
+                sameSite: 'lax',
+                secure:true//but have to change to trure on production
 			};
         // we are storing cookie in jwtoken and it will expires in 30days
         res.cookie('token', token, options);

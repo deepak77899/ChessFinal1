@@ -33,19 +33,23 @@ const profileMenuItems = [
   {
     label: "My Profile",
     icon: UserCircleIcon,
+    link:"/"
   },
   {
     label: "Game History",
     icon: Cog6ToothIcon,
+    link:"/"
   },
   {
     label: "Requests",
     icon: InboxArrowDownIcon,
+    link:"/friendrequests"
   },
-
+  
   {
     label: "Sign Out",
     icon: PowerIcon,
+    link:"/"
   },
 ];
  
@@ -78,9 +82,10 @@ function ProfileMenu() {
         </Button>
       </MenuHandler>
       <MenuList className="p-1">
-        {profileMenuItems.map(({ label, icon }, key) => {
+        {profileMenuItems.map(({ label, icon ,link}, key) => {
           const isLastItem = key === profileMenuItems.length - 1;
           return (
+           <Link to={link}>
             <MenuItem
               key={label}
               onClick={closeMenu}
@@ -103,6 +108,7 @@ function ProfileMenu() {
                 {label}
               </Typography>
             </MenuItem>
+           </Link>
           );
         })}
       </MenuList>

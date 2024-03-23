@@ -10,10 +10,11 @@ const PORT = process.env.PORT || 4000;
 app.use(cookieParser());  
 app.use(express.json());
 app.use(express.urlencoded());
-app.use(cors({      //* cros-origin-scripting
-    origin: "*",
-    credentials: true,
-}));
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+  }));
+  
 app.use("/",router)
 require("dotenv").config();
 require("./config/database").connect();

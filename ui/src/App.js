@@ -5,11 +5,16 @@ import {LoginCard} from "./Components/Auth/LogIn"
 import {SimpleRegistrationForm} from "./Components/Auth/SignUp"
 import {FriendRequests} from "./Components/FriendRequests";
 
+import { DrawerDefault } from "./Components/SideBar";
 function App() {
 
   return (
     <BrowserRouter>
+    <div className='flex '>
+     <DrawerDefault/>
     <ComplexNavbar/>
+    </div>
+   
      <Routes>
         <Route path="/" element={<HomePage />}>
         </Route>
@@ -19,6 +24,7 @@ function App() {
         </Route>
         <Route path="/friendrequests" element={<FriendRequests />}>
         </Route>
+        
       </Routes>
     </BrowserRouter>
   );

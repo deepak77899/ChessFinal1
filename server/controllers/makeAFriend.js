@@ -2,6 +2,7 @@ const user=require("../Models/User");
 const searchForFriend=async (req,res)=>{
     try {
         const {usernameRegx}=req.body;
+        console.log("backend k andar");
         console.log(usernameRegx);
         const users = await user.find({ username: { $regex: usernameRegx, $options: 'i' } });
         if (!users || users.length === 0) {

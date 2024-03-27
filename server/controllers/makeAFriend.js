@@ -94,4 +94,18 @@ const rejectRequest=async(req,res)=>{
         return res.status(400).json({sucess:false,error});
     }
 }
-module.exports ={searchForFriend,sendFriendRequest,getAllFriendRequests,acceptRequest,rejectRequest};
+const allFriends=async(req,res)=>{
+    try {
+        const {email}=req.body;
+        const result = await user.findOne({email}).populate({
+            path:'friends',
+            select:'username email'
+        });  
+
+const friends=result.friends;
+    return res.status(200).json({success:true, friends});
+    } catch (error) {
+        return res.status(400).json({sucess:false,error});
+    }
+}
+module.exports ={searchForFriend,sendFriendRequest,getAllFriendRequests,acceptRequest,rejectRequest,allFriends};

@@ -10,9 +10,9 @@ function App() {
 
   return (
     <BrowserRouter>
-    <div className='flex '>
-     <DrawerDefault/>
-    <ComplexNavbar/>
+    <div className='flex'>
+       <DrawerDefault/>
+       <ComplexNavbar/>
     </div>
    
      <Routes>

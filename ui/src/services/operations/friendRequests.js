@@ -9,14 +9,7 @@ export const friendRequestApi=async(email,setData)=>{
           );
         //   console.log(response)
           setData(response.data.data);
-        // const config={
-        //       withCredentials: true
-        //     };
-        // axios.get("http://localhost:4000/getallfriendrequests/deepak1@gmail.com",config)
-        // .then(res=>{console.log(res.data.data);
-        //     setData(res.data.data);
-        // })
-        // .catch(err=>{console.log(err);});   
+      
     }
     catch(error){
     console.log("error");

@@ -5,8 +5,6 @@ exports.auth = async (req, res, next) => {
   try {
     //extract token
     const token = req.cookies.token;
-    console.log(req.headers);
-    console.log(token);
     if(!token){
      return res.status(401).send('cookie expired in auth');
     }

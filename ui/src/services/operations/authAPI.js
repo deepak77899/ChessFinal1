@@ -27,11 +27,7 @@ try{
 }
 catch(error){
 console.log("error");
-
 }
-
-
-
 }
 
 export const loginAPI=async(email,password,navigate,dispatch)=>{
@@ -68,4 +64,25 @@ export const loginAPI=async(email,password,navigate,dispatch)=>{
     
     
     
+    }
+export const logOutApi=async(navigate,dispatch)=>{
+ 
+    try{
+       
+        const response = await apiConnector(
+            "GET",
+            "http://localhost:4000/logout",
+          );
+          if(response.data.success==="false") {
+            console.log("error aya ");
+            throw new Error("Error");
+          }
+          localStorage.clear();
+          dispatch(setUser(null));
+          navigate('/');
+    }
+    catch(error){
+    console.log("error");
+    
+    }    
     }

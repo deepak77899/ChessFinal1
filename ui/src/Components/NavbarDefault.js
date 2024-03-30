@@ -25,9 +25,9 @@ import {
   RocketLaunchIcon,
   Bars2Icon,
 } from "@heroicons/react/24/solid";
-import { Link  } from "react-router-dom";
-import { useSelector } from 'react-redux';
- 
+import { Link  ,useNavigate} from "react-router-dom";
+import { useSelector ,useDispatch} from 'react-redux';
+import {logOutApi} from '../services/operations/authAPI'
 // profile menu component
 const profileMenuItems = [
   {
@@ -57,7 +57,13 @@ function ProfileMenu() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
  
   const closeMenu = () => setIsMenuOpen(false);
+  const dispatch=useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const navigate=useNavigate();
+  const handleLogout = ()=>{
+    closeMenu();
+    logOutApi(navigate,dispatch);
+}   
   return (
     <Menu open={isMenuOpen} handler={setIsMenuOpen} placement="bottom-end">
       <MenuHandler>
@@ -88,7 +94,7 @@ function ProfileMenu() {
            <Link to={link}>
             <MenuItem
               key={label}
-              onClick={closeMenu}
+              onClick={isLastItem?handleLogout:closeMenu}
               className={`flex items-center gap-2 rounded ${
                 isLastItem
                   ? "hover:bg-red-500/10 focus:bg-red-500/10 active:bg-red-500/10"

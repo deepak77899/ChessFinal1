@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {SearchCard} from "./SearchCard";
+import {GetFriendsCard} from "./GetFriendsCard"
 import {
   Tabs,
   TabsHeader,
@@ -15,21 +16,19 @@ import {
  
 } from "@heroicons/react/24/solid";
 import { seachUserAPI } from "../services/operations/seachUserAPI";
+import { getFriendsAPI } from "../services/operations/getFriendsAPI";
 import { useSelector } from "react-redux";
 
 
  
 export function TabsWithIcon() {
-  const { token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.auth);
   
   const [searchItem,setSearchItem]=useState([]);
   const [searchTerm,setSeachTerm]=useState("");
   const [friends,setFriends]=useState([]);
   useEffect(()=>{
-    // getFriendsAPI(setFriends,user);
-      
-    
+    getFriendsAPI(setFriends,user);
   },[])
 
   const handleChange=(e)=>{
@@ -37,7 +36,7 @@ export function TabsWithIcon() {
   }
   const handleSeach=(e)=>{
     
-    seachUserAPI(searchTerm,setSearchItem,token);
+    seachUserAPI(searchTerm,setSearchItem);
   
   }
 
@@ -50,7 +49,7 @@ export function TabsWithIcon() {
       
         <div>
       {friends.map((friend)=><div>
-
+        <GetFriendsCard friend={friend}/>
       </div>)}
         </div>
       

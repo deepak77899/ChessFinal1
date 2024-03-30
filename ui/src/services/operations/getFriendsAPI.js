@@ -1,13 +1,16 @@
 import { apiConnector } from "../apiconnector"
 
 
-const getFriendsAPI=async(setFriends,user)=>{
+export const getFriendsAPI=async(setFriends,user)=>{
 try{
 
     const response = await apiConnector(
-        "GET",
-        `http://localhost:4000/`
+        "POST",
+        `http://localhost:4000/allFriends`,
+        {email:user.email}
       );
+      console.log("resojbjbk");
+      setFriends(response.data.friends);
 
 }
 

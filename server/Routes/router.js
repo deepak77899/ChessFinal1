@@ -15,13 +15,13 @@ router.post('/test',auth,async (req,res)=>{
 
 //todo auth lga do
 router.post('/signup', userSignup);
-router.post('/logout', userLogout);
-router.post('/searchforfriend', searchForFriend);
+router.get('/logout', userLogout);
+router.post('/searchforfriend',auth, searchForFriend);
 router.post('/sendfriendrequest',sendFriendRequest);
 router.get('/getallfriendrequests/:email',getAllFriendRequests);
 router.post('/rejectRequest',rejectRequest);
 router.post('/acceptRequest',acceptRequest);
-router.post('/allFriends',allFriends);
+router.post('/allFriends',auth,allFriends);
 
 
 

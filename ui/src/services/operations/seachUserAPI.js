@@ -5,7 +5,7 @@ import { setToken,setUser } from "../../slices/authSlice";
 
 
 
-export const seachUserAPI=async(usernameRegx,setSearchItem,token)=>{
+export const seachUserAPI=async(usernameRegx,setSearchItem)=>{
     
 try{
    console.log("jane se phele",usernameRegx);
@@ -13,8 +13,10 @@ try{
         "POST",
         "http://localhost:4000/searchforfriend",
         {
-            token,
             usernameRegx
+        },
+        {
+          'Content-Type': 'application/json',
         }
       );
 

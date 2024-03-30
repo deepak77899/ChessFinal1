@@ -25,10 +25,10 @@ const userLogin=async (req,res)=>{
                 secure:true//but have to change to trure on production
 			};
         // we are storing cookie in jwtoken and it will expires in 30days
-        res.cookie('token', token, options);
         User.password="";
         User.friends=[];
-        res.status(200).json({User,success:true,token});
+        res.cookie('token', token, options).json({User,success:true,token});
+        // res.status(200).json({User,success:true,token});
         }else{
             res.status(401).json({success:false,message:"invalid username or password"});
         }
@@ -85,17 +85,17 @@ const userSignup=async (req, res) => {
             process.env.JWT_SECRET, (err, user) => {
                 if (err) {
                     console.log(err);
-                    return res.status(400).json("auth failed in logout token");
+                    return res.status(400).json({success:false,message : "auth failed in logout token"});
                 }
 
                 res.clearCookie('token');
                 console.log("logged out successfully");
-                return res.status(200).json({ "message": "Sucessfully logged out" });
+                return res.status(200).json({ success:true,message: "Sucessfully logged out" });
             })
    
       }catch(err){
             console.log(err);
-            return res.status(500).json({"message":"error in logout"});
+            return res.status(500).json({success:false,message:"error in logout"});
       }
    };
 module.exports={userLogin,userSignup,userLogout};

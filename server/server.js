@@ -14,44 +14,38 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-    origin: '*',
-    credentials: true
+  origin: 'http://localhost:3000', // Specify the allowed origin
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowing all necessary HTTP methods
 }));
 
 // Route setup
-
+app.use("/", router);
 
 // Create HTTP server and attach Socket.IO
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "*", // Replace with your client's URL
-    methods: ["GET", "POST"],     // HTTP methods allowed
-    allowedHeaders: ["my-custom-header"], // Custom headers allowed
-    credentials: true             // Whether to allow credentials (cookies, etc.)
+    origin: 'http://localhost:3000', // Specify the allowed origin
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowing all necessary methods
+    credentials: true, // Allow credentials (cookies, etc.)
   }
 });
-app.use("/", router);
 
 // Database connection
 require("./config/database").connect();
 
-
-
 const gameManager = new GameManager();
-const jwt = require('jsonwebtoken')
-const JWT_SECRET = process.env.JWT_SECRET
+const jwt = require('jsonwebtoken');
+
 io.on('connection', (socket) => {
-
   const userId = socket.handshake.query.userId;
-
-
-
+  console.log("connection hoir hai",userId);
   gameManager.addUser(socket, userId);
 
-console.log("add user chalra");
+  console.log("add user chalra");
   console.log('a user connected');
-  // Handle disconnection
+
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });

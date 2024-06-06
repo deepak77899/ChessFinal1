@@ -61,11 +61,11 @@ class Game {
   async makeMove(socket, move) {
     // validate the type of move using zod
 
-    if (this.board.moveCount%2 === 0 && socket.id !== this.player1UserId.id) {
+    if (this.moveCount%2 === 0 && socket.id !== this.player1UserId.id) {
       return;
     }
   
-    if (this.board.moveCount%2 ===1 && socket.id !== this.player2UserId.id) {
+    if (this.moveCount%2 ===1 && socket.id !== this.player2UserId.id) {
       return;
     }
   
@@ -93,14 +93,17 @@ class Game {
           this.player2UserId.emit('game_over',result);
   
     }
-    if((this.board.moveCount%2)===0){
-      console.log("hamara phela move")
-      this.player2UserId.emit('move',move)
+    console.log(this.moveCount)
+
+    console.log("ye hai move",move)
+    if((this.moveCount%2)===0){
+      console.log("hamara phela move");
+      this.player2UserId.emit('move',move);
     }
     else
     {
-      console.log("hamara dusra move")
-      this.player1UserId.emit('move',move)
+      console.log("hamara dusra move");
+      this.player1UserId.emit('move',move);
     }
 
     

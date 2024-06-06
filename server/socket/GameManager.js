@@ -46,8 +46,12 @@ const { Game } =require('./Game');
   }
 
   addHandler(socket,userId) {
+
     socket.on('message', async (data) => {
-      const message = JSON.parse(data);
+      console.log("data check k rhe",data)
+
+      // const message = JSON.parse(data.toString())
+const message=data;
 console.log("yuhuuu",message.type)
       if(message.type === "create_game"){
 
@@ -62,6 +66,7 @@ console.log("yuhuuu",message.type)
 console.log(data);
             const waitingPlayer=this.waitingPlayers.find((x)=> x[0]===message.opponent)
             const game=new Game(waitingPlayer[1],socket);
+            console.log(waitingPlayer[1]);
             this.games.push(game); 
             console.log("game create ho gyi",this.games[0].gameId)
 

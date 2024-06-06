@@ -3,6 +3,12 @@ import { apiConnector } from "../apiconnector";
 import { setToken,setUser } from "../../slices/authSlice";
 
 
+
+
+
+
+
+
 export const signUpAPI=async(username,email,password,navigate)=>{
  
 try{
@@ -53,6 +59,10 @@ export const loginAPI=async(email,password,navigate,dispatch)=>{
           localStorage.setItem("token", JSON.stringify(response.data.token))
           dispatch(setToken(response.data.token));
           dispatch(setUser(response.data.User));
+
+       
+          
+
           navigate('/');
           
     

@@ -5,9 +5,9 @@ const {searchForFriend,sendFriendRequest,getAllFriendRequests,rejectRequest,acce
 const {auth}=require('../middlewares/auth');
 
 router.post('/login', userLogin);
-router.get('/',(req,res)=>{
-    res.send("test");
-})
+// router.get('/',(req,res)=>{
+//     res.send("test");
+// })
 router.post('/test',auth,async (req,res)=>{
     console.log("tjb");
     res.send("ti");

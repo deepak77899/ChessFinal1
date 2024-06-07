@@ -22,7 +22,7 @@ const {socket}=useSelector(state=>state.game);
 
  console.log("ye h apna socket",socket);
 useEffect(()=>{
-    setGameLink(`http://localhost:3000/join_game/${id}`);
+    setGameLink(`${process.env.FRONT_END_URL}/join_game/${id}`);
 socket.emit('message',{
   type: "create_game"
 })

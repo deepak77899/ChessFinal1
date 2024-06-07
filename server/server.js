@@ -14,7 +14,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-  origin: 'http://localhost:3000', // Specify the allowed origin
+  origin: process.env.FRONTEND_URL, // Specify the allowed origin
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowing all necessary HTTP methods
 }));
@@ -26,7 +26,7 @@ app.use("/", router);
 const server = createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:3000', // Specify the allowed origin
+    origin: process.env.FRONTEND_URL, // Specify the allowed origin
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allowing all necessary methods
     credentials: true, // Allow credentials (cookies, etc.)
   }

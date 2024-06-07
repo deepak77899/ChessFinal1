@@ -5,7 +5,7 @@ export const friendRequestApi=async(email,setData)=>{
        //todo:
         const response = await apiConnector(
             "GET",
-            `http://localhost:4000/getallfriendrequests/${email}`
+            `${process.env.REACT_APP_BASE_URL}/getallfriendrequests/${email}`
           );
         //   console.log(response)
           setData(response.data.data);
@@ -22,7 +22,7 @@ export const acceptRequestApi=async(email,id)=>{
        
         const response = await apiConnector(
             "POST",
-            "http://localhost:4000/acceptRequest",
+            `${process.env.REACT_APP_BASE_URL}/acceptRequest`,
             {
                 email,
                 _id:id
@@ -41,7 +41,7 @@ export const rejectRequestApi=async(email,id)=>{
        
         const response = await apiConnector(
             "POST",
-            "http://localhost:4000/rejectRequest",
+            `${process.env.REACT_APP_BASE_URL}/rejectRequest`,
             {
                 email,
                 _id:id

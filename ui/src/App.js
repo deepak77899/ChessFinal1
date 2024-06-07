@@ -16,7 +16,7 @@ import { useEffect } from "react";
 
 
 
-const URL = 'http://127.0.0.1:4000'
+const URL = process.env.REACT_APP_BASE_URL;
 function App() {
     const {user}=useSelector(state=>state.auth);
     const navigate=useNavigate()

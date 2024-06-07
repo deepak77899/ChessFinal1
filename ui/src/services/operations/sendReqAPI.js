@@ -12,7 +12,7 @@ try{
  
     const response = await apiConnector(
         "POST",
-        "http://localhost:4000/sendfriendrequest",
+        `${process.env.REACT_APP_BASE_URL}/sendfriendrequest`,
         {
             _id,
             friend_id,

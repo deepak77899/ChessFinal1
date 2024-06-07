@@ -11,7 +11,7 @@ try{
    console.log("jane se phele",usernameRegx);
     const response = await apiConnector(
         "POST",
-        "http://localhost:4000/searchforfriend",
+        `${process.env.REACT_APP_BASE_URL}/searchforfriend`,
         {
             usernameRegx
         },

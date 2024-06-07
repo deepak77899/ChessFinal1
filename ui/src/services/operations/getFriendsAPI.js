@@ -6,7 +6,7 @@ try{
 
     const response = await apiConnector(
         "POST",
-        `http://localhost:4000/allFriends`,
+        `${process.env.REACT_APP_BASE_URL}/allFriends`,
         {email:user.email}
       );
       console.log("resojbjbk");

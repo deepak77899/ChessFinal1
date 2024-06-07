@@ -15,7 +15,7 @@ try{
    
     const response = await apiConnector(
         "POST",
-        "http://localhost:4000/signup",
+        `${process.env.REACT_APP_BASE_URL}/signup`,
         {
          username,
           email,
@@ -42,7 +42,7 @@ export const loginAPI=async(email,password,navigate,dispatch)=>{
        
         const response = await apiConnector(
             "POST",
-            "http://localhost:4000/login",
+            `${process.env.REACT_APP_BASE_URL}/login`,
             {
         
               email,
@@ -81,7 +81,7 @@ export const logOutApi=async(navigate,dispatch)=>{
        
         const response = await apiConnector(
             "GET",
-            "http://localhost:4000/logout",
+            `${process.env.REACT_APP_BASE_URL}/logout`,
           );
           if(response.data.success==="false") {
             console.log("error aya ");

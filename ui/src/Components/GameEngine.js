@@ -5,8 +5,6 @@ import {useParams,useNavigate} from 'react-router-dom'
 import { useSelector } from "react-redux";
 import { setSocket,setColor } from "../slices/gameSlice";
 import { useDispatch } from "react-redux";
-import io from 'socket.io-client'
-const URL = 'http://127.0.0.1:4000'
 
 
 
@@ -27,6 +25,7 @@ export default function GameEngine() {
  const [color,setColor]=useState(null);
 
  const [currentTurn,setCurrentTurn]=useState(null);
+
  const dispatch=useDispatch();
  const navigate=useNavigate();
 
@@ -53,6 +52,7 @@ export default function GameEngine() {
     .includes(to);
 }
   useEffect(()=>{
+
 
 const uID=user._id;
     socket.on('initialize',(data)=>{
@@ -86,10 +86,11 @@ const uID=user._id;
 
 
 
+
     socket.on(MOVE,(payload)=>{
       const  move  = payload;
       console.log("ye hai samne ka move",move)
-      console.log(chess);
+      
         try {
           if (isPromoting(chess, move.from, move.to)) {
             chess.move({
@@ -112,18 +113,15 @@ const uID=user._id;
         }
     })
     socket.on(GAME_OVER,(result)=>{
-            navigate('/');
+            navigate('/');         
 
     })
-
   },[chess,socket]);
 
 
   function onDrop(sourceSquare, targetSquare) {
-
     try {
       let move=null;
-      console.log("move chalne se phele",chess);
       if (isPromoting(chess, sourceSquare, targetSquare)) {
        move=chess.move({
           from: sourceSquare,
@@ -139,7 +137,7 @@ const uID=user._id;
           setCurrentTurn("White");
         }
       }
-      console.log("move chalne k baad",chess);
+      console.log(chess);
       //Todo socket.emit move.
       socket.emit('message',
         {

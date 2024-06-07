@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react'
+import React, { useEffect ,useState} from 'react'
 import {useNavigate, useParams} from 'react-router-dom'
 import io from 'socket.io-client'
 import { useDispatch,useSelector } from 'react-redux'
 import { setColor ,setSocket} from "../slices/gameSlice";
-
+import QRCode from 'qrcode.react';
+import { FaClipboard } from 'react-icons/fa';
 const URL = 'http://127.0.0.1:4000'
 
 
@@ -13,6 +14,7 @@ const URL = 'http://127.0.0.1:4000'
 function CreateGame() {
   const dispatch=useDispatch();
     let { id } = useParams();
+    const [gameLink,setGameLink]=useState("")
 const navigate=useNavigate();
 
 const socket = io(URL,{query: {
@@ -23,7 +25,7 @@ const socket = io(URL,{query: {
 dispatch(setSocket(socket));
 
 useEffect(()=>{
-    
+    setGameLink(`http://localhost:3000/join_game/${id}`);
 socket.emit('message',{
   type: "create_game"
 })
@@ -40,12 +42,24 @@ socket.on('INIT_GAME',(data)=>{
 
 },[id])
 
-
+const copyToClipboard = () => {
+  navigator.clipboard.writeText(gameLink);
+};
 
   return (
-     <div>
-   <div>{`http://localhost:3000/join_game/${id}`}
+     <div className='flex-grow flex items-center justify-center flex-col'>
+      <h3 className='text-2xl'>Share this link with your friend to play</h3>
+   <div className='flex my-4'>
+    <p className='border-2 p-2 border-blue-gray-900'>{gameLink}  </p>
+  <div className='flex justify-center items-center'>
+  <FaClipboard 
+                className="ml-2 cursor-pointer text-black hover:text-gray-800" 
+                onClick={copyToClipboard} 
+              />
+  </div>
    </div>
+   <p className='my-3'>or Scan the OR code</p>
+   <QRCode value={gameLink} />
      
      </div>
     

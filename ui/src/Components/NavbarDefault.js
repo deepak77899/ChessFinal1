@@ -235,20 +235,20 @@ export function ComplexNavbar() {
 
 
 
- 
+  // #302E2B
   return (
-    <Navbar className="mx-auto max-w-screen-xl p-2 lg:rounded-full lg:pl-6">
+    <Navbar className="mt-4 mx-auto max-w-screen-xl p-2  lg:pl-6 ">
       <div className="relative mx-auto flex items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
           href="#"
           className="mr-4 ml-2 cursor-pointer py-1.5 font-medium"
         >
-        Chess
+        <img src="/6.png" className="w-20" alt="CHESS" />
         </Typography>
-        <div className="hidden lg:block">
+        {/* <div className="hidden lg:block">
           <NavList />
-        </div>
+        </div> */}
         <IconButton
           size="sm"
           color="blue-gray"
@@ -266,13 +266,13 @@ export function ComplexNavbar() {
           <div>
           <Link to="/Login">
             <Button size="sm" variant="text">
-              <span>Log In</span>
+              <span className="text-gray-600 hover:text-gray-800 mr-4">Log In</span>
             </Button>
           </Link>
           
           <Link to="/SignUp">
-            <Button size="sm" variant="text" className='bg-orange-600'>
-              <span>SignUp</span>
+            <Button size="sm" variant="text" className='bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600'>
+              <span >SignUp</span>
             </Button>
           </Link>
           </div>

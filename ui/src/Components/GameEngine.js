@@ -5,6 +5,8 @@ import {useParams,useNavigate} from 'react-router-dom'
 import { useSelector } from "react-redux";
 import { setSocket,setColor } from "../slices/gameSlice";
 import { useDispatch } from "react-redux";
+import io from 'socket.io-client'
+const URL = 'http://127.0.0.1:4000'
 
 
 
@@ -17,9 +19,14 @@ export const GAME_OVER = 'game_over';
 
 export default function GameEngine() {
     let { id } = useParams();
+    let {user}=useSelector(state=>state.auth)
+    const socket = io(URL,{query: {
+        "userId": user._id
+      }})
+
   const [chess, _setChess] = useState(new Chess());
   const [fen, setFen] = useState(chess.fen());
- const {socket,color} =useSelector(state=>state.game)
+ const [color,setColor]=useState(null);
  const dispatch=useDispatch();
  const navigate=useNavigate();
 
@@ -47,10 +54,32 @@ export default function GameEngine() {
 }
   useEffect(()=>{
 
+const uID=user._id;
+    socket.on('initialize',(data)=>{
+        const c=data.color;
+        const f=data.fen;
+          chess.load(f);
+        setColor(c);
+        setFen(f);
+
+        
+
+    })
+
+    socket.emit('message',{
+        type:"validate",
+        gameId:id,
+        userId:uID
+    }
+    )
+
+
+
+
     socket.on(MOVE,(payload)=>{
       const  move  = payload;
       console.log("ye hai samne ka move",move)
-      
+      console.log(chess);
         try {
           if (isPromoting(chess, move.from, move.to)) {
             chess.move({
@@ -68,17 +97,17 @@ export default function GameEngine() {
     })
     socket.on(GAME_OVER,(result)=>{
             navigate('/');
-            // dispatch(setSocket(null));
-            // dispatch(setColor(null));
-         
 
     })
+
   },[chess,socket]);
 
 
   function onDrop(sourceSquare, targetSquare) {
+
     try {
       let move=null;
+      console.log("move chalne se phele",chess);
       if (isPromoting(chess, sourceSquare, targetSquare)) {
        move=chess.move({
           from: sourceSquare,
@@ -88,7 +117,7 @@ export default function GameEngine() {
       } else {
          move=chess.move({ from: sourceSquare, to: targetSquare });
       }
-      console.log(chess);
+      console.log("move chalne k baad",chess);
       //Todo socket.emit move.
       socket.emit('message',
         {

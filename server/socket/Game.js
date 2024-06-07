@@ -3,47 +3,23 @@ const { Chess } =require('chess.js');
 const { GAME_ENDED, INIT_GAME, MOVE }=require('./messages');
 const { randomUUID }=require( 'crypto');
 
-// const GAME_TIME_MS = 10 * 60 * 60 * 1000;
-
-// export function isPromoting(chess, from, to) {
-//   if (!from) {
-//     return false;
-//   }
-
-//   const piece = chess.get(from);
-
-//   if (piece?.type !== 'p') {
-//     return false;
-//   }
-
-//   if (piece.color !== chess.turn()) {
-//     return false;
-//   }
-
-//   if (!['1', '8'].some((it) => to.endsWith(it))) {
-//     return false;
-//   }
-
-//   return chess
-//     .moves({ square: from, verbose: true })
-//     .map((it) => it.to)
-//     .includes(to);
-// }
-
 class Game {
-  constructor(player1UserId, player2UserId, gameId, startTime) {
+  constructor(player1UserId, player2UserId, player1mongo, player2mongo) {
     this.player1UserId = player1UserId;
     this.player2UserId = player2UserId;
+    this.player1mongo=player1mongo;
+    this.player2mongo=player2mongo;
     this.board = new Chess();
-    this.gameId = gameId ?? randomUUID();
+    this.gameId =  randomUUID();
     this.moveCount = 0;
     this.timer = null;
     this.moveTimer = null;
     this.result = null;
     this.player1TimeConsumed = 0;
     this.player2TimeConsumed = 0;
-    this.startTime = startTime ? startTime : new Date(Date.now());
+    this.startTime = new Date(Date.now());
     this.lastMoveTime = this.startTime;
+    
 
 
     this.player1UserId.emit('INIT_GAME',{

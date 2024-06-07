@@ -4,17 +4,18 @@ import {ComplexNavbar} from "./Components/NavbarDefault";
 import {LoginCard} from "./Components/Auth/LogIn"
 import {SimpleRegistrationForm} from "./Components/Auth/SignUp"
 import {FriendRequests} from "./Components/FriendRequests";
-// import {Game} from "./Components/xyz"
 import CreateGame from "./Components/CreateGame";
 import JoinGame from "./Components/JoinGame";
 import { DrawerDefault } from "./Components/SideBar";
 import Game from "./Components/Game"
+import { useSelector } from 'react-redux';
 function App() {
-
+    const {user}=useSelector(state=>state.auth);
   return (
+   <div className="min-h-screen bg-gradient-to-r from-blue-100 to-green-100 flex flex-col">
     <BrowserRouter>
     <div className='flex'>
-       <DrawerDefault/>
+      {user && <DrawerDefault/>}
        <ComplexNavbar/>
     </div>
    
@@ -37,6 +38,7 @@ function App() {
         
       </Routes>
     </BrowserRouter>
+   </div>
   );
 }
 

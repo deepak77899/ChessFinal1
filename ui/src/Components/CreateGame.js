@@ -5,7 +5,7 @@ import { useDispatch,useSelector } from 'react-redux'
 import { setColor ,setSocket} from "../slices/gameSlice";
 import QRCode from 'qrcode.react';
 import { FaClipboard } from 'react-icons/fa';
-const URL = 'http://127.0.0.1:4000'
+
 
 
 
@@ -17,13 +17,10 @@ function CreateGame() {
     const [gameLink,setGameLink]=useState("")
 const navigate=useNavigate();
 
-const socket = io(URL,{query: {
-  "userId": id
-}})
 
+const {socket}=useSelector(state=>state.game);
 
-dispatch(setSocket(socket));
-
+ console.log("ye h apna socket",socket);
 useEffect(()=>{
     setGameLink(`http://localhost:3000/join_game/${id}`);
 socket.emit('message',{
@@ -34,7 +31,6 @@ socket.on('INIT_GAME',(data)=>{
   const GameId=data.gameId;
   const color=data.color;
   dispatch(setColor(color));
-
 
   navigate(`/game/${GameId}`)
  })

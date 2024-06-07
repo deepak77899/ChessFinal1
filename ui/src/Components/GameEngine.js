@@ -20,13 +20,13 @@ export const GAME_OVER = 'game_over';
 export default function GameEngine() {
     let { id } = useParams();
     let {user}=useSelector(state=>state.auth)
-    const socket = io(URL,{query: {
-        "userId": user._id
-      }})
+    const {socket}=useSelector(state=>state.game);
 
   const [chess, _setChess] = useState(new Chess());
   const [fen, setFen] = useState(chess.fen());
  const [color,setColor]=useState(null);
+
+ const [currentTurn,setCurrentTurn]=useState(null);
  const dispatch=useDispatch();
  const navigate=useNavigate();
 
@@ -61,6 +61,16 @@ const uID=user._id;
           chess.load(f);
         setColor(c);
         setFen(f);
+        let turn=chess.turn()
+      if(turn==='w'){
+        setCurrentTurn("White")
+      }
+      else{
+        setCurrentTurn("Black")
+      }
+        
+
+        
 
         
 
@@ -89,6 +99,12 @@ const uID=user._id;
             });
           } else {
             chess.move({ from: move.from, to: move.to });
+            if(currentTurn=='White'){
+              setCurrentTurn("Black");
+            }
+            else{
+              setCurrentTurn("White");
+            }
           }
         setFen(chess.fen());
         } catch (error) {
@@ -116,6 +132,12 @@ const uID=user._id;
         });
       } else {
          move=chess.move({ from: sourceSquare, to: targetSquare });
+         if(currentTurn==='White'){
+          setCurrentTurn("Black");
+        }
+        else{
+          setCurrentTurn("White");
+        }
       }
       console.log("move chalne k baad",chess);
       //Todo socket.emit move.
@@ -141,6 +163,7 @@ const uID=user._id;
   
   if (!socket) return <div>Connecting...</div>;
   return <div className="w-[500px]">
+  <div>{currentTurn}'s Turn</div>
            <Chessboard position={fen}  boardOrientation={color} onPieceDrop={onDrop} />
         </div>;
 }

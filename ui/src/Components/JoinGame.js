@@ -12,13 +12,10 @@ function JoinGame() {
     const {user}=useSelector(state=>state.auth)
     const myId=user._id
     const navigate=useNavigate()
-const dispatch=useDispatch();
-const socket = io(URL,{query: {
-  "userId": myId
-}})
+    const dispatch=useDispatch();
 
+const {socket}=useSelector(state=>state.game);
 
-dispatch(setSocket(socket));
 
     useEffect(()=>{
         socket.on('INIT_GAME',(data)=>{

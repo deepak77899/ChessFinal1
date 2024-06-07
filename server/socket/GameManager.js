@@ -196,6 +196,21 @@ class GameManager {
           }
         }
       }
+      if(message.type==='sendGameReq'){
+        const friendId=message.friendId;
+        const friendSocket=this.users.get(friendId);
+
+        if(friendSocket){
+          friendSocket.emit('recieveGameReq',{
+            reqId:userId
+          })
+        }
+
+
+
+      }
+
+
     });
   }
 }

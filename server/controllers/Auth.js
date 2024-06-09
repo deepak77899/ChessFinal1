@@ -16,6 +16,7 @@ const userLogin=async (req,res)=>{
         console.log(isMatch);
         const token= await User.generateAuthToken();
         console.log("token from user login \n "+token+"\n");
+        console.log(process.env.BACKEND_URL);
         if(isMatch){
             const options = {
 				expires: new Date(Date.now() +   15 * 60 * 60 * 1000),

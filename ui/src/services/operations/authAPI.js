@@ -88,8 +88,8 @@ export const logOutApi=async(navigate,dispatch)=>{
             throw new Error("Error");
           }
           localStorage.clear();
-          
           dispatch(setUser(null));
+          dispatch(setToken(null));
           navigate('/');
     }
     catch(error){

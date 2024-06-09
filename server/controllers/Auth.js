@@ -22,7 +22,8 @@ const userLogin=async (req,res)=>{
 				httpOnly: true,
                 path: "/",
                 sameSite: 'lax',
-                secure:true//but have to change to trure on production
+                secure:true,//but have to change to trure on production
+                domain: process.env.BACKEND_URL
 			};
         // we are storing cookie in jwtoken and it will expires in 30days
         User.password="";

@@ -46,7 +46,7 @@ const sendFriendRequest=async (req,res)=>{
 const getAllFriendRequests=async (req,res)=>{
     try {
         //my id,friend id
-        const email=req.params.email;
+        const email=req.body.email;
         const requests = await user.findOne({email},{
             select:'requests'
         }).populate({
@@ -61,7 +61,10 @@ const getAllFriendRequests=async (req,res)=>{
 };
 const acceptRequest=async(req,res)=>{
   try {
-    const {email,_id}=req.body;
+
+    const {email, req_id}=req.body;
+    const _id=req_idn5u
+    console.log("id dekhlo",_id)
     console.log(email);
     const me=await user.findOne({email});  
     const index=me.requests.indexOf(_id);
@@ -81,10 +84,10 @@ const acceptRequest=async(req,res)=>{
 }
 const rejectRequest=async(req,res)=>{
     try {
-        const {email,_id}=req.body;
+        const {email, req_id}=req.body;
+        const _id=req_idn5u
     const me=await user.findOne({email});  
     const index=me.requests.indexOf(_id);
-    console.log(index);
     if(index > -1){
        me.requests.splice(index, 1);
        me.save();
@@ -94,6 +97,7 @@ const rejectRequest=async(req,res)=>{
         return res.status(400).json({sucess:false,error});
     }
 }
+
 const allFriends=async(req,res)=>{
     try {
         const {email}=req.body;

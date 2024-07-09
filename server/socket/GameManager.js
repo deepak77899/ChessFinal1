@@ -185,12 +185,16 @@ class GameManager {
             socket.emit('initialize', {
               color: "white",
               fen: game.board.fen(),
+              player1TimeConsumed:(game.moveCount%2==0)?(game.player1TimeConsumed+(new Date(Date.now()).getTime()-game.lastMoveTime.getTime())):(game.player1TimeConsumed),
+              player2TimeConsumed:(game.moveCount%2==0)?game.player2TimeConsumed:(game.player2TimeConsumed+(new Date(Date.now()).getTime()-game.lastMoveTime.getTime()))
             });
           } else if (message.userId == game.player2mongo) {
             game.player2UserId = socket;
             socket.emit('initialize', {
               color: "black",
               fen: game.board.fen(),
+              player1TimeConsumed:(game.moveCount%2==0)?(game.player1TimeConsumed+(new Date(Date.now()).getTime()-game.lastMoveTime.getTime())):(game.player1TimeConsumed),
+              player2TimeConsumed:(game.moveCount%2==0)?game.player2TimeConsumed:(game.player2TimeConsumed+(new Date(Date.now()).getTime()-game.lastMoveTime.getTime()))
             });
           } else {
             console.log("not this user's game");

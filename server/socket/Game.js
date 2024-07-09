@@ -24,12 +24,18 @@ class Game {
 
     this.player1UserId.emit('INIT_GAME',{
       gameId:this.gameId,
-      color:"white"
+      color:"white",
+      //if even p1 turn  means in lastmove p2 time
+      //if odd p2 turn means in lastmove p1 time
+      player1TimeConsumed:(this.moveCount%2==0)?(this.player1TimeConsumed+(new Date(Date.now()).getTime()-this.lastMoveTime.getTime())):(this.player1TimeConsumed),
+      player2TimeConsumed:(this.moveCount%2==0)?this.player2TimeConsumed:(this.player2TimeConsumed+(new Date(Date.now()).getTime()-this.lastMoveTime.getTime()))
     })
 
     this.player2UserId.emit('INIT_GAME',{
       gameId:this.gameId,
-      color:"black"
+      color:"black",
+      player1TimeConsumed:(this.moveCount%2==0)?(this.player1TimeConsumed+(new Date(Date.now()).getTime()-this.lastMoveTime.getTime())): (this.player1TimeConsumed),
+      player2TimeConsumed:(this.moveCount%2==0)?this.player2TimeConsumed:(this.player2TimeConsumed+(new Date(Date.now()).getTime()-this.lastMoveTime.getTime()))
     })
 
   }

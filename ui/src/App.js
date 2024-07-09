@@ -13,6 +13,7 @@ import { setSocket } from "./slices/gameSlice";
 import io from 'socket.io-client'
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import OpenRoute from './Components/Auth/OpenRoute'
 
 
 
@@ -58,9 +59,13 @@ function App() {
         <Route path="/" element={<HomePage/>}>
         </Route>
         {/* <Route path="/game" element={<Game color="white"/>}></Route> */}
-        <Route path="/Login" element={<LoginCard />}>
+        <Route path="/Login" element={
+          <OpenRoute> <LoginCard />
+          </OpenRoute>}>
         </Route>
-        <Route path="/SignUp" element={<SimpleRegistrationForm />}>
+        <Route path="/SignUp" element={<OpenRoute>
+        <SimpleRegistrationForm/>
+        </OpenRoute>}>
         </Route>
         <Route path="/friendrequests" element={<FriendRequests />}>
         </Route>
@@ -68,7 +73,7 @@ function App() {
         <Route path="/create_game/:id" element={<CreateGame />}>  </Route>
         <Route path="/join_game/:id" element={<JoinGame />}></Route>
 
-        <Route path="/game/:id" element={<Game />}></Route>
+        <Route path="/game/:id" element={<Game/>}></Route>
         
       </Routes>
 

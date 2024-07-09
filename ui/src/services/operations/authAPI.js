@@ -44,10 +44,8 @@ export const loginAPI=async(email,password,navigate,dispatch)=>{
             "POST",
             `${process.env.REACT_APP_BASE_URL}/login`,
             {
-        
               email,
               password
-          
             }
           );
     console.log(response.data.success);

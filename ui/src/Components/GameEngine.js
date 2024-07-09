@@ -138,6 +138,10 @@ const uID=user._id;
   function onDrop(sourceSquare, targetSquare) {
     try {
       let move=null;
+   
+      if(chess.turn()!=color[0])
+   
+      return;
       if (isPromoting(chess, sourceSquare, targetSquare)) {
        move=chess.move({
           from: sourceSquare,

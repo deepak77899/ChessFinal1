@@ -14,7 +14,6 @@ try{
         "POST",
         `${process.env.REACT_APP_BASE_URL}/sendfriendrequest`,
         {
-            _id,
             friend_id,
 
         }

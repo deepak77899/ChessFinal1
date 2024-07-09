@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useInsertionEffect, useState } from "react";
 import {Chess} from "chess.js";
 import { Chessboard } from "react-chessboard";
 import {useParams,useNavigate} from 'react-router-dom'
@@ -26,6 +26,7 @@ export default function GameEngine() {
  const [color,setColor]=useState(null);
 
  const [currentTurn,setCurrentTurn]=useState(null);
+
  const [player1TimeConsumed,setPlayer1TimeConsumed]=useState(0);
  const [player2TimeConsumed,setPlayer2TimeConsumed]=useState(0);
 
@@ -128,7 +129,7 @@ const uID=user._id;
         }
     })
     socket.on(GAME_OVER,(result)=>{
-            navigate('/');         
+           alert(result)       
 
     })
   },[chess,socket]);
@@ -176,14 +177,49 @@ const uID=user._id;
   
   useEffect(() => {
       const interval = setInterval(() => {
+
         if (chess.turn() == 'w') {
-          setPlayer1TimeConsumed((p) => p + 1);
+          setPlayer1TimeConsumed((p) => p + 1000);
         } else {
-          setPlayer2TimeConsumed((p) => p + 1);
+          setPlayer2TimeConsumed((p) => p + 1000);
         }
+
+
       }, 1000);
+
+
+
       return () => clearInterval(interval);
   }, [user]);
+
+  useEffect(()=>{
+
+    if(player1TimeConsumed>=GAME_TIME_MS){
+      socket.emit('message',
+      {
+          type:"timeout",
+          winner: "black",
+          gameId:id
+      }
+
+
+    )
+    }
+
+    if(player2TimeConsumed>=GAME_TIME_MS){
+      socket.emit('message',
+      {
+          type:"timeout",
+          winner: "white",
+          gameId:id
+      }
+
+
+    )
+    }
+
+  },[player1TimeConsumed,player2TimeConsumed])
+
 
   const getTimer = (timeConsumed) => {
     const timeLeftMs = GAME_TIME_MS - timeConsumed;
@@ -201,13 +237,10 @@ const uID=user._id;
 
   if (!socket) return <div>Connecting...</div>;
   return <div className="w-[500px]">
-  <div>{currentTurn}'s Turn</div>
-           {color}
-           {chess.turn()}
-           {/* {player1TimeConsumed} */}
-           {/* <br/>
-           <br/> */}
-           {/* {player2TimeConsumed} */}
+  <div>{chess.turn()=='w'? ('White'):('Black')}'s Turn</div>
+      
+
+        
            {getTimer(color==="white"?player2TimeConsumed:player1TimeConsumed)}
            <Chessboard position={fen}  boardOrientation={color} onPieceDrop={onDrop} />
            {getTimer(color==="black"?player2TimeConsumed:player1TimeConsumed)}

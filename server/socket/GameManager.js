@@ -143,6 +143,7 @@ class GameManager {
       console.log("data check k rhe", data, " aur meri user id", userId);
 
       const message = data;
+      console.log(message.type)
 
       if (message.type === "create_game") {
         console.log("game create hori", socket.id, userId);
@@ -197,6 +198,7 @@ class GameManager {
           }
         }
       }
+
       if(message.type==='sendGameReq'){
         const friendId=message.friendId;
         const friendSocket=this.users.get(friendId);
@@ -208,6 +210,22 @@ class GameManager {
         }
 
 
+
+      }
+
+      if(message.type==='timeout'){
+        console.log("timeout funcation k andar",message.type)
+    const winner =message.winner;
+    const gameId=message.gameId;
+    const game = this.games.get(gameId);
+
+
+
+const player1UserId=game.player1UserId;
+const player2UserId=game.player2UserId;
+
+    player1UserId.emit("game_over",winner);
+    player2UserId.emit('game_over',winner);
 
       }
 

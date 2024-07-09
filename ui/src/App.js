@@ -14,6 +14,7 @@ import io from 'socket.io-client'
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import OpenRoute from './Components/Auth/OpenRoute'
+import CloseRoute from './Components/Auth/CloseRoute'
 
 
 
@@ -71,7 +72,7 @@ function App() {
         </Route>
         
         <Route path="/create_game/:id" element={<CreateGame />}>  </Route>
-        <Route path="/join_game/:id" element={<JoinGame />}></Route>
+        <Route path="/join_game/:id" element={<CloseRoute><JoinGame /></CloseRoute>}></Route>
 
         <Route path="/game/:id" element={<Game/>}></Route>
         

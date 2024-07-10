@@ -65,6 +65,10 @@ const uID=user._id;
           chess.load(f);
         setColor(c);
         setFen(f);
+        const p1TC=data.player1TimeConsumed;
+        const p2TC=data.player2TimeConsumed;
+        setPlayer1TimeConsumed(p1TC);
+        setPlayer2TimeConsumed(p2TC);
         let turn=chess.turn()
       if(turn==='w'){
         setCurrentTurn("White")

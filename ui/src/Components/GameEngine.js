@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 export const INIT_GAME = 'init_game';
 export const MOVE = 'move';
 export const GAME_OVER = 'game_over';
+const GAME_TIME_MS = 10*60*1000;
 
 
 export default function GameEngine() {
@@ -25,6 +26,8 @@ export default function GameEngine() {
  const [color,setColor]=useState(null);
 
  const [currentTurn,setCurrentTurn]=useState(null);
+ const [player1TimeConsumed,setPlayer1TimeConsumed]=useState(0);
+ const [player2TimeConsumed,setPlayer2TimeConsumed]=useState(0);
 
  const dispatch=useDispatch();
  const navigate=useNavigate();
@@ -75,7 +78,11 @@ const uID=user._id;
         
 
     })
-
+     socket.on('time',(payload)=>{
+      const  {player1TimeConsumedPayload,player2TimeConsumedPayload}  = payload;
+      setPlayer1TimeConsumed(player1TimeConsumedPayload);
+      setPlayer2TimeConsumed(player2TimeConsumedPayload);
+     })
     socket.emit('message',{
         type:"validate",
         gameId:id,
@@ -88,7 +95,7 @@ const uID=user._id;
 
 
     socket.on(MOVE,(payload)=>{
-      const  move  = payload;
+      const  {move,player1TimeConsumedPayload,player2TimeConsumedPayload}  = payload;
       console.log("ye hai samne ka move",move)
       
         try {
@@ -98,6 +105,12 @@ const uID=user._id;
               to: move.to,
               promotion: 'q',
             });
+            if(currentTurn=='White'){
+              setCurrentTurn("Black");
+            }
+            else{
+              setCurrentTurn("White");
+            }
           } else {
             chess.move({ from: move.from, to: move.to });
             if(currentTurn=='White'){
@@ -108,6 +121,8 @@ const uID=user._id;
             }
           }
         setFen(chess.fen());
+        setPlayer1TimeConsumed(player1TimeConsumedPayload);
+        setPlayer2TimeConsumed(player2TimeConsumedPayload);
         } catch (error) {
           console.log('Error', error);
         }
@@ -155,13 +170,46 @@ const uID=user._id;
       if(move==null)return false;
       return true;
     } catch (error) {
-      console.log('Error', error);
+      console.log('Error', error);   
     }
   }
   
+  useEffect(() => {
+      const interval = setInterval(() => {
+        if (chess.turn() == 'w') {
+          setPlayer1TimeConsumed((p) => p + 1);
+        } else {
+          setPlayer2TimeConsumed((p) => p + 1);
+        }
+      }, 1000);
+      return () => clearInterval(interval);
+  }, [user]);
+
+  const getTimer = (timeConsumed) => {
+    const timeLeftMs = GAME_TIME_MS - timeConsumed;
+    const minutes = Math.floor(timeLeftMs / (1000 * 60));
+    const remainingSeconds = Math.floor((timeLeftMs % (1000 * 60)) / 1000);
+
+    return (
+      <div className="text-black">
+        Time Left: {minutes < 10 ? '0' : ''}
+        {minutes}:{remainingSeconds < 10 ? '0' : ''}
+        {remainingSeconds}
+      </div>
+    );
+  };
+
   if (!socket) return <div>Connecting...</div>;
   return <div className="w-[500px]">
   <div>{currentTurn}'s Turn</div>
+           {color}
+           {chess.turn()}
+           {/* {player1TimeConsumed} */}
+           {/* <br/>
+           <br/> */}
+           {/* {player2TimeConsumed} */}
+           {getTimer(color==="white"?player2TimeConsumed:player1TimeConsumed)}
            <Chessboard position={fen}  boardOrientation={color} onPieceDrop={onDrop} />
+           {getTimer(color==="black"?player2TimeConsumed:player1TimeConsumed)}
         </div>;
 }

@@ -34,7 +34,7 @@ class Game {
 
   }
 
-  async makeMove(socket, move) {
+  async makeMove(socket, move,lastmovetime) {
     // validate the type of move using zod
 
     if (this.moveCount%2 === 0 && socket.id !== this.player1UserId.id) {
@@ -74,14 +74,20 @@ class Game {
     console.log("ye hai move",move)
     if((this.moveCount%2)===0){
       console.log("hamara phela move");
-      this.player2UserId.emit('move',move);
+      this.player1TimeConsumed += lastmovetime.getTime() - this.lastMoveTime.getTime();
+      this.lastMoveTime=lastmovetime;
+      this.player1UserId.emit('time',{player1TimeConsumedPayload:this.player1TimeConsumed,player2TimeConsumedPayload:this.player2TimeConsumed});
+      this.player2UserId.emit('move',{move,player1TimeConsumedPayload:this.player1TimeConsumed,player2TimeConsumedPayload:this.player2TimeConsumed});
     }
     else
     {
       console.log("hamara dusra move");
-      this.player1UserId.emit('move',move);
+      this.player2TimeConsumed+=lastmovetime.getTime()-this.lastMoveTime.getTime();
+      this.lastMoveTime=lastmovetime;
+      this.player2UserId.emit('time',{player1TimeConsumedPayload:this.player1TimeConsumed,player2TimeConsumedPayload:this.player2TimeConsumed});
+      this.player1UserId.emit('move',{move,player1TimeConsumedPayload:this.player1TimeConsumed,player2TimeConsumedPayload:this.player2TimeConsumed});
     }
-
+    
     
   
     this.moveCount++;

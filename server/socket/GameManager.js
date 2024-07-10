@@ -164,9 +164,10 @@ class GameManager {
 
       if (message.type === "move") {
         const gameId = message.gameId;
+        const lastmovetime=new Date(Date.now())
         const game = this.games.get(gameId);
         if (game) {
-          game.makeMove(socket, message.move);
+          game.makeMove(socket, message.move,lastmovetime);
           if (game.result) {
             this.removeGame(game.gameId);
           }

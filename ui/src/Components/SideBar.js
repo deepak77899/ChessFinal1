@@ -6,6 +6,7 @@ import {
   IconButton,
 } from "@material-tailwind/react";
 import { TabsWithIcon } from "./Tabs";
+
  
 export function DrawerDefault() {
   const [open, setOpen] = React.useState(false);

@@ -11,24 +11,30 @@ import {
 import { friendRequestApi ,acceptRequestApi,rejectRequestApi} from "../services/operations/friendRequests";
 import { useState } from "react";
 import { useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
+
+
 
 export function FriendRequests() {
+  const dispatch=useDispatch();
+  const navigate=useNavigate();
   const [data,setData]=useState([]);
   const { user } = useSelector((state) => state.auth);
   useEffect(  () => {
-    friendRequestApi(user.email,setData);
+    friendRequestApi(dispatch,navigate,user.email,setData);
     console.log("data");
     console.log(data);
   },[]);
   
   const handleAcceptRequest=(id)=>{
-      acceptRequestApi(user.email,id);
+      acceptRequestApi(dispatch,navigate,user.email,id);
       setData((prev)=>{
         prev=prev.filter((obj)=>obj._id!=id)
       });
   }
   const handleRejectRequest=(id)=>{
-      rejectRequestApi(user.email,id);
+      rejectRequestApi(dispatch,navigate,user.email,id);
       setData((prev)=>{
         prev=prev.filter((obj)=>obj._id!=id)
       });

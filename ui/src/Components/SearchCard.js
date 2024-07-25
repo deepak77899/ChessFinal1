@@ -8,12 +8,16 @@ import {
   } from "@material-tailwind/react";
   import { sendReqAPI } from "../services/operations/sendReqAPI";
   import { useSelector } from 'react-redux';
+  import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
    
   export function SearchCard({item,setSearchItem}) {
+    const dispatch=useDispatch();
+  const navigate=useNavigate();
     const { user } = useSelector((state) => state.auth);
     const handleClick=(e)=>{
         console.log("req send krne se phele id",user._id,item._id);
-            sendReqAPI(item,user);
+            sendReqAPI(dispatch,navigate,item,user);
             setSearchItem((prev)=>{
               prev=prev.filter(obj=>obj._id!==item._id);
               return prev;

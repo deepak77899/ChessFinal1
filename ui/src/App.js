@@ -15,7 +15,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import OpenRoute from './Components/Auth/OpenRoute'
 import CloseRoute from './Components/Auth/CloseRoute'
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const URL = process.env.REACT_APP_BASE_URL;
@@ -77,7 +78,7 @@ function App() {
         <Route path="/game/:id" element={<Game/>}></Route>
         
       </Routes>
-
+      <ToastContainer />
    </div>
   );
 }

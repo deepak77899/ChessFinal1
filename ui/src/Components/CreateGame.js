@@ -1,11 +1,10 @@
 import React, { useEffect ,useState} from 'react'
 import {useNavigate, useParams} from 'react-router-dom'
-import io from 'socket.io-client'
 import { useDispatch,useSelector } from 'react-redux'
 import { setColor ,setSocket} from "../slices/gameSlice";
 import QRCode from 'qrcode.react';
 import { FaClipboard } from 'react-icons/fa';
-
+import {  toast } from "react-toastify";
 
 
 
@@ -39,6 +38,7 @@ socket.on('INIT_GAME',(data)=>{
 },[id])
 
 const copyToClipboard = () => {
+  toast.success("Link Copied to clipboard");
   navigator.clipboard.writeText(gameLink);
 };
 
@@ -56,7 +56,6 @@ const copyToClipboard = () => {
    </div>
    <p className='my-3'>or Scan the OR code</p>
    <QRCode value={gameLink} />
-     
      </div>
     
     

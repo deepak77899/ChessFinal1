@@ -2,7 +2,7 @@
 import { apiConnector } from "../apiconnector";
 import { setToken,setUser } from "../../slices/authSlice";
 
-
+import {  toast } from "react-toastify";
 
 
 
@@ -91,6 +91,7 @@ export const logOutApi=async(navigate,dispatch)=>{
           navigate('/');
     }
     catch(error){
+      toast.error("error in logout api");
     console.log("error");
     
     }    

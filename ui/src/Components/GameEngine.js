@@ -235,22 +235,27 @@ const uID=user._id;
     const remainingSeconds = Math.floor((timeLeftMs % (1000 * 60)) / 1000);
 
     return (
-      <div className="text-black">
-        Time Left: {minutes < 10 ? '0' : ''}
+      <div className="glass-container p-4 my-4 rounded-lg shadow-lg max-w-20 max-h-8 flex justify-center items-center">
+      <div className="text-xl font-bold text-black">
+        {minutes < 10 ? '0' : ''}
         {minutes}:{remainingSeconds < 10 ? '0' : ''}
         {remainingSeconds}
       </div>
+    </div>
+    
     );
   };
-
-  if (!socket) return <div>Connecting...</div>;
   return <div className="w-[500px]">
-  <div>{chess.turn()=='w'? ('White'):('Black')}'s Turn</div>
+  
       
 
-        
+        <div className="flex justify-between items-center">
+        <div className="pacifico-regular text-xl">{chess.turn()=='w'? ('White'):('Black')}'s Turn</div>
            {getTimer(color==="white"?player2TimeConsumed:player1TimeConsumed)}
+
+        </div>
+
            <Chessboard position={fen}  boardOrientation={color} onPieceDrop={onDrop} />
-           {getTimer(color==="black"?player2TimeConsumed:player1TimeConsumed)}
+          <div className="flex justify-end"> {getTimer(color==="black"?player2TimeConsumed:player1TimeConsumed)}</div>
         </div>;
 }

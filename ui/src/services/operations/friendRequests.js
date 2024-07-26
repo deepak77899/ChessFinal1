@@ -1,4 +1,5 @@
 import { apiConnector } from "../apiconnector";
+import {  toast } from "react-toastify";
 export const friendRequestApi=async(email,setData)=>{
  
     try{
@@ -12,12 +13,13 @@ export const friendRequestApi=async(email,setData)=>{
       
     }
     catch(error){
-    console.log("error");
-    
+        toast.error("error in friend request");
+        console.log("error");
+        
     }
-    }
+}
 export const acceptRequestApi=async(email,id)=>{
- 
+    
     try{
        
         const response = await apiConnector(
@@ -26,12 +28,13 @@ export const acceptRequestApi=async(email,id)=>{
             {
                 req_id:id
             }
-          );
-          console.log(response);      
+        );
+        console.log(response);      
     }
     catch(error){
-    console.log("error");
-    
+        toast.error("error in friend request");
+        console.log("error");
+        
     }
     }
 export const rejectRequestApi=async(email,id)=>{
@@ -49,6 +52,7 @@ export const rejectRequestApi=async(email,id)=>{
           console.log(response);      
     }
     catch(error){
+        toast.error("error in friend request");
     console.log("error");
     
     }

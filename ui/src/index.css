@@ -7,4 +7,8 @@
     font-weight: 400;
     font-style: normal;
   }
-  
+  .glass-container {
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent background */
+    backdrop-filter: blur(10px); /* Blur effect */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+  }

@@ -7,8 +7,6 @@ import {  toast } from "react-toastify";
 
 
 
-
-
 export const signUpAPI=async(username,email,password,navigate)=>{
  
 try{
@@ -48,18 +46,16 @@ export const loginAPI=async(email,password,navigate,dispatch)=>{
               password
             }
           );
-    console.log(response.data.success);
+    console.log("ye hai loginAPI k andar response",response);
           if(response.data.success==="false") {
             console.log("error aya ");
             throw new Error("Error");
           }
+ 
           localStorage.setItem("User", JSON.stringify(response.data.User))
           localStorage.setItem("token", JSON.stringify(response.data.token))
           dispatch(setToken(response.data.token));
-          dispatch(setUser(response.data.User));
-
-       
-          
+          dispatch(setUser(response.data.User)); 
 
           navigate('/');
           
@@ -69,30 +65,29 @@ export const loginAPI=async(email,password,navigate,dispatch)=>{
     console.log("error");
     
     }
-    
     
     
     }
 export const logOutApi=async(navigate,dispatch)=>{
  
     try{
-       
-        const response = await apiConnector(
+        const response =  await apiConnector(
             "GET",
             `${process.env.REACT_APP_BASE_URL}/logout`,
           );
-          if(response.data.success==="false") {
-            console.log("error aya ");
-            throw new Error("Error");
-          }
-          localStorage.clear();
-          dispatch(setUser(null));
-          dispatch(setToken(null));
-          navigate('/');
     }
     catch(error){
       toast.error("error in logout api");
+
     console.log("error");
+    }   
+    finally{
+      localStorage.clear();
+      dispatch(setUser(null));
+      dispatch(setToken(null));
+      navigate('/');
+    }
+   
+
     
-    }    
     }

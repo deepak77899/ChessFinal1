@@ -18,17 +18,19 @@ import {
 import { seachUserAPI } from "../services/operations/seachUserAPI";
 import { getFriendsAPI } from "../services/operations/getFriendsAPI";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from 'react-redux';
 
-
- 
 export function TabsWithIcon() {
+  const dispatch=useDispatch();
+  const navigate=useNavigate();
   const { user } = useSelector((state) => state.auth);
   
   const [searchItem,setSearchItem]=useState([]);
   const [searchTerm,setSeachTerm]=useState("");
   const [friends,setFriends]=useState([]);
   useEffect(()=>{
-    getFriendsAPI(setFriends,user);
+    getFriendsAPI(dispatch,navigate,setFriends,user);
   },[])
 
   const handleChange=(e)=>{
@@ -36,7 +38,7 @@ export function TabsWithIcon() {
   }
   const handleSeach=(e)=>{
     
-    seachUserAPI(searchTerm,setSearchItem);
+    seachUserAPI(dispatch,navigate,searchTerm,setSearchItem);
   
   }
 

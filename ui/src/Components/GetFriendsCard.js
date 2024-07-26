@@ -31,9 +31,7 @@ const HandleGameReq=(e)=>{
     friendId:friend._id
   })
 
-
 }
-
     return (
       <Card className="w-[100%] h-auto py-4">
        <div className="flex justify-around w-[100%]">

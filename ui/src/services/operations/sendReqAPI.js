@@ -3,10 +3,9 @@ import { apiConnector } from "../apiconnector"
 import { setToken,setUser } from "../../slices/authSlice";
 
 
-export const sendReqAPI=async(item,user)=>{
+export const sendReqAPI=async(dispatch,navigate,item,user)=>{
     
 try{
-
   const _id=user._id;
    const friend_id=item._id;
  
@@ -18,13 +17,19 @@ try{
 
         }
       );
-    
-    
-      
 
 }
 catch(error){
-console.log("error");
+  if (error.response) {
+    if(error.response.status==401){
+       localStorage.clear();
+       dispatch(setUser(null));
+       dispatch(setToken(null));
+       navigate('/login');
+       
+    }
+         }
 
+   console.log("error");
 }
 }

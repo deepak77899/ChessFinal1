@@ -10,9 +10,6 @@ exports.auth = async (req, res, next) => {
      return res.status(401).send('cookie expired in auth');
     }
     console.log("cookies in auth \n"+token);
-   if(!token){
-    return res.status(401).send('Token is missing');
-   }
 
    try {
     var verifyUser = jwt.verify(
@@ -27,7 +24,7 @@ exports.auth = async (req, res, next) => {
     req.body.username=verifyUser.username;
     next();
   } catch (error) {
-     return res.status(401).send("Unauthorized request ye");
+     return res.status(400).send("Unauthorized request ye");
   }
 }
 

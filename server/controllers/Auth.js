@@ -29,7 +29,6 @@ const userLogin=async (req,res)=>{
         User.password="";
         User.friends=[];
         res.cookie('token', token, options).json({User,success:true,token});
-        // res.status(200).json({User,success:true,token});
         }else{
             res.status(401).json({success:false,message:"invalid username or password"});
         }
@@ -77,8 +76,9 @@ const userSignup=async (req, res) => {
        const token = req.cookies.token;
        console.log('logout token \n');
        console.log(token);
+       
        if (!token) {
-        return res.status(400).json('cookie expired you can log out');
+        return res.status(401).json({success:false,message:'cookie expired you can log out'});
     }
        
           jwt.verify(

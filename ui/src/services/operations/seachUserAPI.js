@@ -5,11 +5,11 @@ import { setToken,setUser } from "../../slices/authSlice";
 
 
 
-export const seachUserAPI=async(usernameRegx,setSearchItem)=>{
+export const seachUserAPI=async(dispatch,navigate,usernameRegx,setSearchItem)=>{
     
 try{
    console.log("jane se phele",usernameRegx);
-    const response = await apiConnector(
+    const response =await apiConnector(
         "POST",
         `${process.env.REACT_APP_BASE_URL}/searchforfriend`,
         {
@@ -30,10 +30,19 @@ try{
 
 }
 catch(error){
-console.log("error");
+  if (error.response) {
+    if(error.response.status==401){
+       localStorage.clear();
+       dispatch(setUser(null));
+       dispatch(setToken(null));
+       navigate('/login');
+       
+    }
+         }
+
+   console.log("error");
 
 }
-
 
 
 }

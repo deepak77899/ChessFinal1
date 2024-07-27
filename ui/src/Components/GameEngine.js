@@ -263,13 +263,13 @@ function HomeHandler(){
     
     );
   };
-  return (<div className="flex flex-col sm:flex-row">
-          <div className="w-[500px]">
+  return (<div className="flex flex-col sm:flex-row w-[100%] justify-center items-center">
+          <div className="w-[100%] 2xl:max-w-[500px] xl:max-w-[450px] lg:max-w-[400px] md:max-w-[350px] sm:max-w-[300px] max-w-[80%]   ">
   
       
 
         <div className="flex justify-between items-center">
-        <div className="pacifico-regular text-xl">{chess.turn()=='w'? ('White'):('Black')}'s Turn</div>
+        <div className="pacifico-regular text-sm md:text-lg lg:text-xl">{chess.turn()=='w'? ('White'):('Black')}'s Turn</div>
            {getTimer(color==="white"?player2TimeConsumed:player1TimeConsumed)}
 
         </div>
@@ -288,7 +288,7 @@ function HomeHandler(){
                   </div>
               </div>
               <div
-                  class="relative z-10 inline-flex items-center justify-center w-full px-8 py-3 text-lg font-bold text-white transition-all duration-200 bg-gray-900 border-2 border-transparent sm:w-auto rounded-xl font-pj hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                  class="relative z-10 inline-flex items-center justify-center w-full px-8 py-3 text-xs sm:text-sm md:text-md lg:text-lg font-bold text-white transition-all duration-200 bg-gray-900 border-2 border-transparent sm:w-auto rounded-xl font-pj hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
                 >
                   Resign
               </div>
@@ -301,7 +301,7 @@ function HomeHandler(){
                   </div>
               </div>
               <div
-                  class="relative z-10 inline-flex items-center justify-center w-full px-8 py-3 text-lg font-bold text-white transition-all duration-200 bg-gray-900 border-2 border-transparent sm:w-auto rounded-xl font-pj hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                  class="relative z-10 inline-flex items-center justify-center w-full px-8 py-3 text-xs sm:text-sm md:text-md lg:text-lg font-bold text-white transition-all duration-200 bg-gray-900 border-2 border-transparent sm:w-auto rounded-xl font-pj hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
                 >
                   Home
               </div>

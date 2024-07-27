@@ -33,14 +33,14 @@ function JoinGameShort() {
 const {socket}=useSelector(state=>state.game);
 
   return (
-    <div className='flex-grow flex items-center justify-center'>
+    <div className='flex-grow flex items-center justify-center flex-col sm:flex-row'>
          <input
         type="text"
         value={inputValue}
         onChange={handleInputChange}
         placeholder="Paste something here"
       />
-      <button className='mx-5' onClick={handleJoinButtonClick}>
+      <button className='mx-5 mt-10 sm:mt-0' onClick={handleJoinButtonClick}>
         <div class="relative">
     <div class="absolute -inset-5">
         <div

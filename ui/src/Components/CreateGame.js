@@ -56,10 +56,10 @@ const copyToClipboard = () => {
 
       <h3 className='text-2xl'>Share this game id</h3>
     <p className='border-2 p-2 border-blue-gray-900 '>{shortId}  </p>
-      <h3 className='text-2xl'>or Share this link with your friend to play</h3>
-   <div className='flex my-4  max-width-[90%] sm:max-w-[100%]' > 
-    <p className='border-2 p-2 border-blue-gray-900 '>{gameLink}  </p>
-  <div className='flex justify-center items-center'>
+      <h3 className='text-2xl text-center'>or Share this link with your friend to play</h3>
+   <div className='flex my-4  max-w-[100vw] flex-col sm:flex-row justify-center' > 
+    <p className='border-2 p-2 border-blue-gray-900 text-ellipsis overflow-hidden w-[80%] mx-auto'>{gameLink}  </p>
+  <div className='flex justify-center items-center mt-3 sm:mt-0'>
   <FaClipboard 
                 className="ml-2 cursor-pointer text-black hover:text-gray-800" 
                 onClick={copyToClipboard} 

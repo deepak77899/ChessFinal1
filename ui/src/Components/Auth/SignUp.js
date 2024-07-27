@@ -58,17 +58,15 @@ import { useState } from "react";
 
   }
     return (
-        <div className='h-screen flex justify-center items-center'>
-       <Card color="transparent" shadow={false}>
+        <div className='h-[80vh] flex justify-center items-center'>
+       <Card className="p-5 mt-10">
         <Typography variant="h4" color="blue-gray">
           Sign Up
         </Typography>
-        <Typography color="gray" className="mt-1 font-normal">
-          Nice to meet you! Enter your details to register.
-        </Typography>
-        <form className="mt-8 mb-2 w-80 max-w-screen-lg sm:w-96">
+
+        <form className="mt-2  w-80 max-w-screen-lg sm:w-96">
           <div className="mb-1 flex flex-col gap-6">
-            <Typography variant="h6" color="blue-gray" className="-mb-3">
+            <Typography variant="h6" color="blue-gray" className="-mb-5">
               Your Name
             </Typography>
             <Input
@@ -85,7 +83,7 @@ import { useState } from "react";
               value={formData.Name}
               
             />
-            <Typography variant="h6" color="blue-gray" className="-mb-3">
+            <Typography variant="h6" color="blue-gray" className="-mb-5">
               Your Email
             </Typography>
             <Input
@@ -98,7 +96,7 @@ import { useState } from "react";
               name="Email"
               onChange={handleChange}
             />
-            <Typography variant="h6" color="blue-gray" className="-mb-3">
+            <Typography variant="h6" color="blue-gray" className="-mb-5">
               Password
             </Typography>
             <Input
@@ -113,24 +111,6 @@ import { useState } from "react";
               onChange={handleChange}
             />
           </div>
-          <Checkbox
-            label={
-              <Typography
-                variant="small"
-                color="gray"
-                className="flex items-center font-normal"
-              >
-                I agree the
-                <a
-                  href="#"
-                  className="font-medium transition-colors hover:text-gray-900"
-                >
-                  &nbsp;Terms and Conditions
-                </a>
-              </Typography>
-            }
-            containerProps={{ className: "-ml-2.5" }}
-          />
           <Button className="mt-6" fullWidth onClick={handleSubmit}>
             sign up
           </Button>

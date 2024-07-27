@@ -95,6 +95,7 @@
 // module.exports={GameManager}
 const user=require("../Models/User")
 const { Server } = require('socket.io');
+const { v4: uuidv4 } = require('uuid');
 const {
   GAME_OVER,
   INIT_GAME,
@@ -116,6 +117,8 @@ class GameManager {
     this.io = io;
     this.games = new Map();
     this.waitingPlayers = new Map();
+    this.waitingPlayerswithkeyuuid = new Map();
+    this.socketToUserId = new Map();
     this.users = new Map();
   }
 
@@ -137,7 +140,11 @@ class GameManager {
   removeGame(gameId) {
     this.games.delete(gameId);
   }
-
+   generateGameId() {
+    const uniquePart = uuidv4().replace(/-/g, '').substring(0, 7);
+    return uniquePart;
+  }
+  
   addHandler(socket, userId) {
     socket.on('message', async (data) => {
       console.log("data check k rhe", data, " aur meri user id", userId);
@@ -147,15 +154,49 @@ class GameManager {
 
       if (message.type === "create_game") {
         console.log("game create hori", socket.id, userId);
+        console.log(`shortgameid ${message.shortGameId}`);
         this.waitingPlayers.set(userId, socket);
+        console.log(typeof message.shortGameId);
+        this.waitingPlayerswithkeyuuid.set(message.shortGameId, socket);
+        this.socketToUserId.set(socket,userId);
       }
 
+
+      if(message.type=== "join_game_uuid"){
+        console.log("jkkjn");
+          console.log(typeof message.shortgameid);
+          const waitingPlayerswithkeyuuidSocket = this.waitingPlayerswithkeyuuid.get(message.shortgameid);
+          if(!waitingPlayerswithkeyuuidSocket){
+            console.log("notfount");
+          }
+          console.log(waitingPlayerswithkeyuuidSocket);
+          const waitingPlayeruserId = this.socketToUserId.get(waitingPlayerswithkeyuuidSocket);
+          console.log(waitingPlayeruserId);
+          if (waitingPlayerswithkeyuuidSocket) {
+            const game = new Game(waitingPlayerswithkeyuuidSocket, socket, waitingPlayeruserId, userId);
+  
+            this.games.set(game.gameId, game);
+            this.waitingPlayers.delete(waitingPlayeruserId);
+            this.waitingPlayerswithkeyuuid.delete(message.shortgameid);
+            this.socketToUserId.delete(waitingPlayerswithkeyuuidSocket);
+  
+            console.log("game create ho gyi", game.gameId);
+          }
+      }
       if (message.type === "join_game") {
         const waitingPlayerSocket = this.waitingPlayers.get(message.opponent);
-
+        //u s
+        //s u
+        //sh s
         if (waitingPlayerSocket) {
           const game = new Game(waitingPlayerSocket, socket, message.opponent, userId);
-
+          for (const [key, val] of socketToUserId.entries()) {
+            if (val === waitingPlayerSocket) {
+              this.socketToUserId.delete(key);
+              break;
+            }
+          }
+          this.waitingPlayerswithkeyuuid.delete(waitingPlayerSocket);
           this.games.set(game.gameId, game);
           this.waitingPlayers.delete(message.opponent);
 
@@ -216,7 +257,23 @@ class GameManager {
 
 
       }
-
+      if(message.type==='resign'){
+        console.log("resign ww");
+        console.log(message.winner);
+        console.log(message.gameId);
+        console.log("resign backend");
+        const winner =message.winner;
+        const gameId=message.gameId;
+        const game = this.games.get(gameId);
+    
+    
+    
+        const player1UserId=game.player1UserId;
+        const player2UserId=game.player2UserId;
+    
+        player1UserId.emit("game_over",winner);
+        player2UserId.emit('game_over',winner);
+      }
       if(message.type==='timeout'){
         console.log("timeout funcation k andar",message.type)
     const winner =message.winner;

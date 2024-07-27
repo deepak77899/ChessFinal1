@@ -20,6 +20,7 @@ class Game {
     this.startTime = new Date(Date.now());
     this.lastMoveTime = this.startTime;
     
+    
 
 
     this.player1UserId.emit('INIT_GAME',{

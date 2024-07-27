@@ -57,8 +57,8 @@ import { useDispatch } from 'react-redux';
   
     }
     return (
-        <div className='h-screen flex items-center justify-center'>
-      <Card className="w-96">
+        <div className='h-[100%] flex items-center justify-center w-[100%]'>
+      <Card className="w-96 mt-20">
         <CardHeader
           variant="gradient"
           color="gray"
@@ -74,7 +74,6 @@ import { useDispatch } from 'react-redux';
           <Input label="Password" size="lg"  name="Password"
               onChange={handleChange}/>
           <div className="-ml-2.5">
-            <Checkbox label="Remember Me" />
           </div>
         </CardBody>
         <CardFooter className="pt-0">

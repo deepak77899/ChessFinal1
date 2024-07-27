@@ -1,6 +1,6 @@
 import { apiConnector } from "../apiconnector";
+import { setToken,setUser } from "../../slices/authSlice";
 import {  toast } from "react-toastify";
-
 
 export const friendRequestApi=async(dispatch,navigate,email,setData)=>{
  

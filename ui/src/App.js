@@ -6,6 +6,7 @@ import {SimpleRegistrationForm} from "./Components/Auth/SignUp"
 import {FriendRequests} from "./Components/FriendRequests";
 import CreateGame from "./Components/CreateGame";
 import JoinGame from "./Components/JoinGame";
+import JoinGameShort from "./Components/JoinGameShort";
 import { DrawerDefault } from "./Components/SideBar";
 import Game from "./Components/Game"
 import { useDispatch,useSelector } from 'react-redux'
@@ -49,9 +50,10 @@ function App() {
 
 
   return (
-   <div className="min-h-screen bg-gradient-to-r from-blue-100 to-green-100 flex flex-col">
+   <div className=" bg-gradient-to-r from-blue-100 to-green-100">
     
-    <div className='flex'>
+     <div className="min-h-screen flex flex-col  max-w-[95%] mx-auto">
+     <div className='flex sm:flex-row flex-col-reverse justify-end w-[100%]'>
       {user && <DrawerDefault/>}
        <ComplexNavbar/>
     </div>
@@ -74,11 +76,13 @@ function App() {
         
         <Route path="/create_game/:id" element={<CreateGame />}>  </Route>
         <Route path="/join_game/:id" element={<CloseRoute><JoinGame /></CloseRoute>}></Route>
+        <Route path="/join_game_shortid" element={<CloseRoute><JoinGameShort /></CloseRoute>}></Route>
 
         <Route path="/game/:id" element={<Game/>}></Route>
         
       </Routes>
       <ToastContainer />
+     </div>
    </div>
   );
 }

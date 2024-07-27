@@ -36,11 +36,6 @@ const profileMenuItems = [
     link:"/"
   },
   {
-    label: "Game History",
-    icon: Cog6ToothIcon,
-    link:"/"
-  },
-  {
     label: "Requests",
     icon: InboxArrowDownIcon,
     link:"/friendrequests"

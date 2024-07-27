@@ -17,7 +17,7 @@ export function DrawerDefault() {
  
   return (
     <React.Fragment>
-      <Button onClick={openDrawer} className='min-h-5 bg-black mt-2 ml-2 '>
+      <Button onClick={openDrawer} className='sm:min-h-5 max-w-20 bg-black mt-2 ml-2 '>
       <div class="relative">
     <div class="absolute -inset-5">
         <div

@@ -1,11 +1,9 @@
-import { useEffect, useInsertionEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {Chess} from "chess.js";
 import { Chessboard } from "react-chessboard";
-import {useParams,useNavigate} from 'react-router-dom'
+import {useParams} from 'react-router-dom'
 import { useSelector } from "react-redux";
-import { setSocket,setColor } from "../slices/gameSlice";
-import { useDispatch } from "react-redux";
-
+import {useNavigate} from 'react-router-dom'
 
 
 
@@ -18,8 +16,12 @@ const GAME_TIME_MS = 10*60*1000;
 
 export default function GameEngine() {
     let { id } = useParams();
+    const navigate=useNavigate()
+    const intervalRef = useRef();
     let {user}=useSelector(state=>state.auth)
     const {socket}=useSelector(state=>state.game);
+    const [winner, setWinner] = useState("");
+  const [isGameOver, setGameOver] = useState(false);
 
   const [chess, _setChess] = useState(new Chess());
   const [fen, setFen] = useState(chess.fen());
@@ -30,8 +32,6 @@ export default function GameEngine() {
  const [player1TimeConsumed,setPlayer1TimeConsumed]=useState(0);
  const [player2TimeConsumed,setPlayer2TimeConsumed]=useState(0);
 
- const dispatch=useDispatch();
- const navigate=useNavigate();
 
 
     function isPromoting(chess, from,to) {
@@ -133,14 +133,17 @@ const uID=user._id;
         }
     })
     socket.on(GAME_OVER,(result)=>{
-           alert(result)       
-
+      setGameOver(true);
+      setWinner(result);
+      clearInterval(intervalRef.current);
+      console.log('Game Over');
     })
   },[chess,socket]);
 
 
   function onDrop(sourceSquare, targetSquare) {
     try {
+      if(isGameOver==true)return ;
       let move=null;
    
       if(chess.turn()!=color[0])
@@ -184,7 +187,7 @@ const uID=user._id;
   }
   
   useEffect(() => {
-      const interval = setInterval(() => {
+       intervalRef.current = setInterval(() => {
 
         if (chess.turn() == 'w') {
           setPlayer1TimeConsumed((p) => p + 1000);
@@ -197,12 +200,14 @@ const uID=user._id;
 
 
 
-      return () => clearInterval(interval);
+      return () => clearInterval(intervalRef.current);
   }, [user]);
 
   useEffect(()=>{
 
-    if(player1TimeConsumed>=GAME_TIME_MS){
+    if(player1TimeConsumed>=GAME_TIME_MS && color=='white'){
+      console.log("p1 time > game time");
+      clearInterval(intervalRef.current);
       socket.emit('message',
       {
           type:"timeout",
@@ -214,7 +219,9 @@ const uID=user._id;
     )
     }
 
-    if(player2TimeConsumed>=GAME_TIME_MS){
+    if(player2TimeConsumed>=GAME_TIME_MS && color=="black"){
+      console.log("p2 time > game time");
+      clearInterval(intervalRef.current);
       socket.emit('message',
       {
           type:"timeout",
@@ -226,11 +233,22 @@ const uID=user._id;
     )
     }
 
-  },[player1TimeConsumed,player2TimeConsumed])
+  },[player1TimeConsumed,player2TimeConsumed]);
 
-
+function resignHandler(){
+  socket.emit('message',
+    {
+        type:"resign",
+        winner:color=="white"?"black":"white",
+        gameId:id
+    })
+}
+function HomeHandler(){
+  navigate('/');
+}
   const getTimer = (timeConsumed) => {
-    const timeLeftMs = GAME_TIME_MS - timeConsumed;
+    let timeLeftMs = GAME_TIME_MS - timeConsumed;
+    if(timeLeftMs<=0)timeLeftMs = 0;
     const minutes = Math.floor(timeLeftMs / (1000 * 60));
     const remainingSeconds = Math.floor((timeLeftMs % (1000 * 60)) / 1000);
 
@@ -245,7 +263,8 @@ const uID=user._id;
     
     );
   };
-  return <div className="w-[500px]">
+  return (<div className="flex flex-col sm:flex-row">
+          <div className="w-[500px]">
   
       
 
@@ -255,7 +274,41 @@ const uID=user._id;
 
         </div>
 
-           <Chessboard position={fen}  boardOrientation={color} onPieceDrop={onDrop} />
+           <Chessboard className="xl:w-[100%] w-[80%]" position={fen}  boardOrientation={color} onPieceDrop={onDrop} />
           <div className="flex justify-end"> {getTimer(color==="black"?player2TimeConsumed:player1TimeConsumed)}</div>
-        </div>;
+           </div> 
+           <div className="flex items-center justify-center flex-col">
+                <div className="p-4 pacifico-regular text-xl">{isGameOver?"Winner is ":""}{winner}</div>
+                <div className='flex items-center justify-center'>
+                { (!isGameOver)?( <button className='mx-5' onClick={resignHandler}>
+                  <div class="relative">
+              <div class="absolute -inset-5">
+                  <div
+                      class="w-full h-full max-w-sm mx-auto lg:mx-0 opacity-30 blur-lg bg-gradient-to-r from-yellow-400 via-pink-500 to-green-600">
+                  </div>
+              </div>
+              <div
+                  class="relative z-10 inline-flex items-center justify-center w-full px-8 py-3 text-lg font-bold text-white transition-all duration-200 bg-gray-900 border-2 border-transparent sm:w-auto rounded-xl font-pj hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                >
+                  Resign
+              </div>
+                    </div></button>):(
+              <button className='mx-5' onClick={HomeHandler} >
+                  <div class="relative">
+              <div class="absolute -inset-5">
+                  <div
+                      class="w-full h-full max-w-sm mx-auto lg:mx-0 opacity-30 blur-lg bg-gradient-to-r from-yellow-400 via-pink-500 to-green-600">
+                  </div>
+              </div>
+              <div
+                  class="relative z-10 inline-flex items-center justify-center w-full px-8 py-3 text-lg font-bold text-white transition-all duration-200 bg-gray-900 border-2 border-transparent sm:w-auto rounded-xl font-pj hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-900"
+                >
+                  Home
+              </div>
+              </div></button>
+                )}
+              </div>
+           </div>
+          </div>
+        );
 }

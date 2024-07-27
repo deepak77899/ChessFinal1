@@ -15,7 +15,7 @@ function HomePage() {
 
   const HandleJoin=(e)=>{
     
-    navigate(`/join_game`);
+    navigate(`/join_game_shortid`);
 
   }
 

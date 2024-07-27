@@ -190,13 +190,13 @@ class GameManager {
         //sh s
         if (waitingPlayerSocket) {
           const game = new Game(waitingPlayerSocket, socket, message.opponent, userId);
-          for (const [key, val] of socketToUserId.entries()) {
+          for (const [key, val] of this.waitingPlayerswithkeyuuid.entries()) {
             if (val === waitingPlayerSocket) {
-              this.socketToUserId.delete(key);
+              this.waitingPlayerswithkeyuuid.delete(key);
               break;
             }
           }
-          this.waitingPlayerswithkeyuuid.delete(waitingPlayerSocket);
+          this.socketToUserId.delete(waitingPlayerSocket);
           this.games.set(game.gameId, game);
           this.waitingPlayers.delete(message.opponent);
 
